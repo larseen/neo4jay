@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../">
-  <title data-ice="title">Variable | API Document</title>
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">lib/errors.js | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -42,82 +42,51 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">Variable</h1>
-<div data-ice="summaries"><table class="summary" data-ice="summary">
-  <thead><tr><td data-ice="title" colspan="3">Static Public Summary</td></tr></thead>
-  <tbody>
-  
-  <tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-           <span data-ice="name"><span><a href="variable/index.html#static-variable-Relation">Relation</a></span></span><span data-ice="signature">: <span>*</span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-</tbody>
-</table>
-</div>
-<div data-ice="details"><h2 data-ice="title">Static Public </h2>
+<div class="content" data-ice="content"><h1 data-ice="title">lib/errors.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+ * ValidationError extends Error
+ * @module error
+ * @example
+ * throw new ValidationError(error);
+ */
+export class ValidationError extends Error {
+    name = &apos;ValidationError&apos;;
+    status = 400;
+    /**
+    * ValidationError constructor.
+    * @param {object} error - The error to be thrown.
+    */
+    constructor(error) {
+        super(error.message);
+        this.payload = {
+            ...error,
+            name: this.name
+        };
+    }
+}
 
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="static-variable-Relation">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    <span data-ice="name">Relation</span><span data-ice="signature">: <span>*</span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/lib/relations/index.js.html#lineNumber3">source</a></span></span>
-    </span>
-  </h3>
+/**
+ * NotFoundError extends Error
+ * @module error
+ * @example
+ * throw new NotFoundError(&apos;User&apos;);
+ */
+export class NotFoundError extends Error {
+    name = &apos;NotFoundError&apos;
+    message = &apos;Could not find the entity&apos;;
+    status = 404;
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Relation from &apos;<span><a href="file/lib/relations/index.js.html#lineNumber3">Neo4Jay/lib/relations/index.js</a></span>&apos;</code></pre></div>
-  
-  
-  
+    /**
+    * NotFoundError constructor.
+    * @param {string} entity - The name of the entity that could not be found.
+    */
+    constructor(entity) {
+        super( &apos;Could not find the requested &apos;+entity );
+        this.message =  &apos;Could not find the requested &apos;+entity;
+    }
+}
+</code></pre>
 
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-</div>
 </div>
 
 <footer class="footer">

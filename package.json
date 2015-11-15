@@ -4,7 +4,7 @@
   "dependencies": {
     "async": "^1.4.0",
     "lodash": "3.10.0",
-    "neo4j": "2.0.0-RC2",
+    "request-promise": "^1.0.2",
     "shortid": "^2.2.4"
   },
   "devDependencies": {
@@ -15,11 +15,10 @@
     "eslint-config-webkom": "0.3.1",
     "mocha": "^2.3.3",
     "supertest": "1.1.0",
-    "esdoc": "1.0.0"
+    "esdoc": "1.0.0",
+    "esdoc-es7-plugin": "0.0.3"
   },
   "scripts": {
-    "watch": "nodemon --exec npm start",
-    "start": "babel-node src/index.js",
     "test": "NODE_ENV=test mocha --compilers js:babel/register $(find test -name '*.test.js')",
     "lint": "eslint --ignore-path .gitignore .",
     "docs": "esdoc -c esdoc.json"

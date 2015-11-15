@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">lib/schema.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~NotFoundError.html">NotFoundError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~ValidationError.html">ValidationError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/model.js~Model.html">Model</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/node.js~Node.html">Node</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/schema.js~Schema.html">Schema</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">relations</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Relation">Relation</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">lib/schema.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import _ from &apos;lodash&apos;;
+import shortid from &apos;shortid&apos;;
+/**
+* define the structure of your data,
+* schema specific methods,
+* indexes / constrains,
+* hooks,
+* validation,
+* relationships,
+*
+*/
+export default class Schema {
+    /**
+     *
+     * Used to initialize a new schema.
+     *
+     * @example
+     * import Neo4Jay from &apos;neo4jay&apos;;
+     *
+     * const Schema = Neo4Jay.Schema;
+     *
+     * const ingredientSchema = new Schema({
+     * 	name: {
+     * 		required: true,
+     * 		type: String
+     * 	},
+     * 	description: {
+     * 		type: String
+     * 	}
+     * })
+     *
+     */
+    constructor(object, options){
+
+        this._options = this._setOptions(options);
+        this._paths = this._setPaths(object);
+        this.methods = {};
+        this.relationships = {};
+
+    }
+
+    /**
+     * @access private
+     */
+    _setPaths(object){
+
+        var paths = {};
+
+        _.mapKeys(object, function(value, key) {
+            paths[key] = value;
+        });
+
+        if(this.options.id){
+            paths.id = {
+                unique: true,
+                index: true,
+                required: true,
+                constraint: true,
+                default: shortid.generate()
+            }
+        }
+
+        return paths;
+
+    }
+
+    /**
+     * @access private
+     */
+    _setOptions(options){
+
+        options = {
+            strict: true,
+            autoIndex: null,
+            validateBeforeSave: true,
+            id: true
+        };
+
+      return options;
+
+    }
+
+    /**
+     * Function to use for validating a node
+     * @param  {object} node - The node that will be evaluated
+     * @return {object} node - The evaluated node with added or removed properties.
+     * @throws {ValidationError} error - Thrown if an node violates the constraints given by the schema.
+     *
+     */
+    validate(node){
+
+        var _node = {};
+
+        _.mapKeys(this.paths, function(value, key) {
+
+            if(node[key]){
+                _node[key] = node[key]
+            } else&#xA0;{
+                if(value.required &amp;&amp; !value.default) throw new error(&apos;missing property: &apos;+key)
+                else _node[key] = value.default;
+            }
+
+        });
+
+        return _node;
+
+    }
+
+    /**
+     *
+     * Adds an instance relationship to documents constructed from Models compiled from this schema.
+     *
+     * @access public
+     * @param {string|object} name - name for the specified relationsship, or an object of muliple relationsships.
+     * @param {function} fn - relationsship to be added to the schema.
+     * @example
+     * ingredientSchema.relation({
+     * 	&apos;HAS_NUTRIENTS&apos;: Relations.hasMany(&apos;Nutrients&apos;),
+     * 	&apos;HAS_INGREDIENT&apos;: Relations.belongsTo(&apos;IngredientType&apos;),
+     * 	&apos;CONTAINS_INGREDIENT&apos;: Relations.belongsToMany(&apos;Recipies&apos;),
+     * })
+     *
+     */
+    relation(name, fn){
+        if (&apos;string&apos; != typeof name){
+            for (var i in name){
+                this.relationships[i] = name[i];
+            }
+        } else {
+            this.relationships[name] = fn;
+        }
+    }
+
+
+
+
+
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.3)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

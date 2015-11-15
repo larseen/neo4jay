@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">lib/index.js | API Document</title>
+  <title data-ice="title">lib/model.js | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -42,45 +42,108 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/index.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Model from &apos;./model&apos;;
+<div class="content" data-ice="content"><h1 data-ice="title">lib/model.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import _ from &apos;lodash&apos;;
 import Node from &apos;./node&apos;;
-import Schema from &apos;./Schema&apos;;
-import Relations from &apos;./relations&apos;;
-import Bluebird from &apos;bluebird&apos;;
-import config from &apos;../../config/&apos;
-import Neo4j from &apos;neo4j&apos;;
-Bluebird.promisifyAll(Neo4j)
-const db = new Neo4j.GraphDatabase(config.neo4j);
+import { NotFoundError, ValidationError } from &apos;./errors&apos;;
 
-class Neo4Jay {
-    constructor(){
-
-        this.db = db;
-        this.models = {};
-        this.modelSchemas = {};
-        this.Schema = Schema;
-        this.Model = Model;
-        this.Node = Node;
-        this.Relations = Relations;
-
-    }
+export default class Model {
 
 
-    model(name, schema){
-        // generate new Model
+    static findById = function(id, conditions, properties) {
+
+        const Model = this;
+
+        var query = [
+            &apos;MATCH (node:&apos;+Model.modelName+&apos;)&apos;,
+            &apos;WHERE node.id = &quot;&apos;+id+&apos;&quot;&apos;,
+            &apos;RETURN node&apos;,
+        ].join(&apos;\n&apos;)
+
+        return this.db.cypherAsync({ query: query })
+            .then(response =&gt; {
+                if(!response.length) return null;
+                return new Node(Model, response[0]);
+            })
+
+
+    };
+
+    static updateById = function(id, node, conditions, properties) {
+
+        const Model = this;
+        const safeProps = this.schema.validate(node);
+
+        var query = [
+            &apos;MATCH (node:&apos;+Model.modelName+&apos;)&apos;,
+            &apos;WHERE node.id = &quot;&apos;+id+&apos;&quot;&apos;,
+            &apos;SET node += {props}&apos;,
+            &apos;RETURN node&apos;,
+        ].join(&apos;\n&apos;)
+
+        var params = {
+            props: safeProps
+        };
+
+        return this.db.cypherAsync({ query: query, params: params })
+            .then(response =&gt; {
+                if(!response.length) return null;
+                return new Node(Model, response[0]);
+            })
+
+
+    };
+
+    static find = function(conditions, properties) {
+
+        const Model = this;
+
+        var query = [
+            &apos;MATCH (node:&apos;+Model.modelName+&apos;)&apos;,
+            &apos;RETURN node&apos;,
+        ].join(&apos;\n&apos;)
+
+        return this.db.cypherAsync({ query: query })
+            .then(response =&gt; {
+                return response.map(function (node) {
+                    return new Node(Model, node);
+                });
+            })
+
+
+    };
+
+    static create = function(node) {
+
+        var newNode = new Node(this, node);
+        return newNode.save();
+
+    };
+
+
+    static compile(name, schema, db, base) {
+
+        // generate new Node
         function model(node, fields, skipId) {
           return new Node(model, node, fields, skipId);
         }
+        model.modelName = name;
+        model.db = db;
+        model.base = base;
+        model.schema = schema;
 
-        model = Model.compile(name, schema, db, this);
-        neo4jay.models[name] = model
+
+        // Inherit the functions of Model
+        for ( var i in Model){
+            if (typeof Model[i] === &apos;function&apos;) {
+              model[i] = Model[i];
+            }
+        }
+
         return model;
+
     }
-
 }
-
-var neo4jay = module.exports = exports = new Neo4Jay;
 </code></pre>
 
 </div>

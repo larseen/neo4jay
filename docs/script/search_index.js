@@ -1,9 +1,39 @@
 window.esdocSearchIndex = [
   [
+    "neo4jay/lib/model.js~model",
+    "class/lib/model.js~Model.html",
+    "<span>Model</span> <span class=\"search-result-import-path\">Neo4Jay/lib/model.js</span>",
+    "class"
+  ],
+  [
+    "neo4jay/lib/node.js~node",
+    "class/lib/node.js~Node.html",
+    "<span>Node</span> <span class=\"search-result-import-path\">Neo4Jay/lib/node.js</span>",
+    "class"
+  ],
+  [
+    "neo4jay/lib/errors.js~notfounderror",
+    "class/lib/errors.js~NotFoundError.html",
+    "<span>NotFoundError</span> <span class=\"search-result-import-path\">Neo4Jay/lib/errors.js</span>",
+    "class"
+  ],
+  [
     "neo4jay/lib/relations/index.js~relation",
     "variable/index.html#static-variable-Relation",
     "<span>Relation</span> <span class=\"search-result-import-path\">Neo4Jay/lib/relations/index.js</span>",
     "variable"
+  ],
+  [
+    "neo4jay/lib/schema.js~schema",
+    "class/lib/schema.js~Schema.html",
+    "<span>Schema</span> <span class=\"search-result-import-path\">Neo4Jay/lib/schema.js</span>",
+    "class"
+  ],
+  [
+    "neo4jay/lib/errors.js~validationerror",
+    "class/lib/errors.js~ValidationError.html",
+    "<span>ValidationError</span> <span class=\"search-result-import-path\">Neo4Jay/lib/errors.js</span>",
+    "class"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~array",
@@ -336,15 +366,147 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
+    "lib/errors.js",
+    "file/lib/errors.js.html",
+    "lib/errors.js",
+    "file"
+  ],
+  [
+    "lib/errors.js~notfounderror#constructor",
+    "class/lib/errors.js~NotFoundError.html#instance-constructor-constructor",
+    "lib/errors.js~NotFoundError#constructor",
+    "method"
+  ],
+  [
+    "lib/errors.js~notfounderror#message",
+    "class/lib/errors.js~NotFoundError.html#instance-member-message",
+    "lib/errors.js~NotFoundError#message",
+    "member"
+  ],
+  [
+    "lib/errors.js~validationerror#constructor",
+    "class/lib/errors.js~ValidationError.html#instance-constructor-constructor",
+    "lib/errors.js~ValidationError#constructor",
+    "method"
+  ],
+  [
+    "lib/errors.js~validationerror#payload",
+    "class/lib/errors.js~ValidationError.html#instance-member-payload",
+    "lib/errors.js~ValidationError#payload",
+    "member"
+  ],
+  [
     "lib/index.js",
     "file/lib/index.js.html",
     "lib/index.js",
     "file"
   ],
   [
+    "lib/model.js",
+    "file/lib/model.js.html",
+    "lib/model.js",
+    "file"
+  ],
+  [
+    "lib/model.js~model.compile",
+    "class/lib/model.js~Model.html#static-method-compile",
+    "lib/model.js~Model.compile",
+    "method"
+  ],
+  [
+    "lib/node.js",
+    "file/lib/node.js.html",
+    "lib/node.js",
+    "file"
+  ],
+  [
+    "lib/node.js~node#base",
+    "class/lib/node.js~Node.html#instance-member-base",
+    "lib/node.js~Node#base",
+    "member"
+  ],
+  [
+    "lib/node.js~node#constructor",
+    "class/lib/node.js~Node.html#instance-constructor-constructor",
+    "lib/node.js~Node#constructor",
+    "method"
+  ],
+  [
+    "lib/node.js~node#db",
+    "class/lib/node.js~Node.html#instance-member-db",
+    "lib/node.js~Node#db",
+    "member"
+  ],
+  [
+    "lib/node.js~node#model",
+    "class/lib/node.js~Node.html#instance-member-model",
+    "lib/node.js~Node#model",
+    "member"
+  ],
+  [
+    "lib/node.js~node#modelname",
+    "class/lib/node.js~Node.html#instance-member-modelName",
+    "lib/node.js~Node#modelName",
+    "member"
+  ],
+  [
+    "lib/node.js~node#schema",
+    "class/lib/node.js~Node.html#instance-member-schema",
+    "lib/node.js~Node#schema",
+    "member"
+  ],
+  [
+    "lib/node.js~node#selected",
+    "class/lib/node.js~Node.html#instance-member-selected",
+    "lib/node.js~Node#selected",
+    "member"
+  ],
+  [
+    "lib/node.js~node#tojson",
+    "class/lib/node.js~Node.html#instance-method-toJSON",
+    "lib/node.js~Node#toJSON",
+    "method"
+  ],
+  [
     "lib/relations/index.js",
     "file/lib/relations/index.js.html",
     "lib/relations/index.js",
     "file"
+  ],
+  [
+    "lib/schema.js",
+    "file/lib/schema.js.html",
+    "lib/schema.js",
+    "file"
+  ],
+  [
+    "lib/schema.js~schema#constructor",
+    "class/lib/schema.js~Schema.html#instance-constructor-constructor",
+    "lib/schema.js~Schema#constructor",
+    "method"
+  ],
+  [
+    "lib/schema.js~schema#methods",
+    "class/lib/schema.js~Schema.html#instance-member-methods",
+    "lib/schema.js~Schema#methods",
+    "member"
+  ],
+  [
+    "lib/schema.js~schema#relation",
+    "class/lib/schema.js~Schema.html#instance-method-relation",
+    "lib/schema.js~Schema#relation",
+    "method"
+  ],
+  [
+    "lib/schema.js~schema#relationships",
+    "class/lib/schema.js~Schema.html#instance-member-relationships",
+    "lib/schema.js~Schema#relationships",
+    "member"
+  ],
+  [
+    "lib/schema.js~schema#validate",
+    "class/lib/schema.js~Schema.html#instance-method-validate",
+    "lib/schema.js~Schema#validate",
+    "method"
   ]
 ]

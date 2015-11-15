@@ -4,16 +4,171 @@
     "kind": "file",
     "static": true,
     "variation": null,
+    "name": "lib/errors.js",
+    "memberof": null,
+    "longname": "lib/errors.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "/**\n * ValidationError extends Error\n * @module error\n * @example\n * throw new ValidationError(error);\n */\nexport class ValidationError extends Error {\n    name = 'ValidationError';\n    status = 400;\n    /**\n    * ValidationError constructor.\n    * @param {object} error - The error to be thrown.\n    */\n    constructor(error) {\n        super(error.message);\n        this.payload = {\n            ...error,\n            name: this.name\n        };\n    }\n}\n\n/**\n * NotFoundError extends Error\n * @module error\n * @example\n * throw new NotFoundError('User');\n */\nexport class NotFoundError extends Error {\n    name = 'NotFoundError'\n    message = 'Could not find the entity';\n    status = 404;\n\n    /**\n    * NotFoundError constructor.\n    * @param {string} entity - The name of the entity that could not be found.\n    */\n    constructor(entity) {\n        super( 'Could not find the requested '+entity );\n        this.message =  'Could not find the requested '+entity;\n    }\n}\n"
+  },
+  {
+    "__docId__": 1,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "ValidationError",
+    "memberof": "lib/errors.js",
+    "longname": "lib/errors.js~ValidationError",
+    "access": null,
+    "export": true,
+    "importPath": "Neo4Jay/lib/errors.js",
+    "importStyle": "{ValidationError}",
+    "description": "ValidationError extends Error",
+    "examples": [
+      "throw new ValidationError(error);"
+    ],
+    "lineNumber": 7,
+    "unknown": [
+      {
+        "tagName": "@module",
+        "tagValue": "error"
+      }
+    ],
+    "interface": false,
+    "extends": [
+      "Error"
+    ]
+  },
+  {
+    "__docId__": 2,
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "lib/errors.js~ValidationError",
+    "longname": "lib/errors.js~ValidationError#constructor",
+    "access": null,
+    "description": "ValidationError constructor.",
+    "lineNumber": 14,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "error",
+        "description": "The error to be thrown."
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 3,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "payload",
+    "memberof": "lib/errors.js~ValidationError",
+    "longname": "lib/errors.js~ValidationError#payload",
+    "access": null,
+    "description": null,
+    "lineNumber": 16,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 4,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "NotFoundError",
+    "memberof": "lib/errors.js",
+    "longname": "lib/errors.js~NotFoundError",
+    "access": null,
+    "export": true,
+    "importPath": "Neo4Jay/lib/errors.js",
+    "importStyle": "{NotFoundError}",
+    "description": "NotFoundError extends Error",
+    "examples": [
+      "throw new NotFoundError('User');"
+    ],
+    "lineNumber": 29,
+    "unknown": [
+      {
+        "tagName": "@module",
+        "tagValue": "error"
+      }
+    ],
+    "interface": false,
+    "extends": [
+      "Error"
+    ]
+  },
+  {
+    "__docId__": 5,
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "lib/errors.js~NotFoundError",
+    "longname": "lib/errors.js~NotFoundError#constructor",
+    "access": null,
+    "description": "NotFoundError constructor.",
+    "lineNumber": 38,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "entity",
+        "description": "The name of the entity that could not be found."
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 6,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "message",
+    "memberof": "lib/errors.js~NotFoundError",
+    "longname": "lib/errors.js~NotFoundError#message",
+    "access": null,
+    "description": null,
+    "lineNumber": 40,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 7,
+    "kind": "file",
+    "static": true,
+    "variation": null,
     "name": "lib/index.js",
     "memberof": null,
     "longname": "lib/index.js",
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import Model from './model';\nimport Node from './node';\nimport Schema from './Schema';\nimport Relations from './relations';\nimport Bluebird from 'bluebird';\nimport config from '../config/'\nimport Neo4j from 'neo4j';\nBluebird.promisifyAll(Neo4j)\nconst db = new Neo4j.GraphDatabase(config.neo4j);\n\nclass Neo4Jay {\n    constructor(){\n\n        this.db = db;\n        this.models = {};\n        this.modelSchemas = {};\n        this.Schema = Schema;\n        this.Model = Model;\n        this.Node = Node;\n        this.Relations = Relations;\n\n    }\n\n\n    model(name, schema){\n        // generate new Model\n        function model(node, fields, skipId) {\n          return new Node(model, node, fields, skipId);\n        }\n\n        model = Model.compile(name, schema, db, this);\n        neo4jay.models[name] = model\n        return model;\n    }\n\n}\n\nvar neo4jay = module.exports = exports = new Neo4Jay;\n"
+    "content": "import Model from './model';\nimport Node from './node';\nimport Schema from './Schema';\nimport Relations from './relations';\nimport Bluebird from 'bluebird';\nimport config from '../../config/'\nimport Neo4j from 'neo4j';\nBluebird.promisifyAll(Neo4j)\nconst db = new Neo4j.GraphDatabase(config.neo4j);\n\nclass Neo4Jay {\n    constructor(){\n\n        this.db = db;\n        this.models = {};\n        this.modelSchemas = {};\n        this.Schema = Schema;\n        this.Model = Model;\n        this.Node = Node;\n        this.Relations = Relations;\n\n    }\n\n\n    model(name, schema){\n        // generate new Model\n        function model(node, fields, skipId) {\n          return new Node(model, node, fields, skipId);\n        }\n\n        model = Model.compile(name, schema, db, this);\n        neo4jay.models[name] = model\n        return model;\n    }\n\n}\n\nvar neo4jay = module.exports = exports = new Neo4Jay;\n"
   },
   {
-    "__docId__": 1,
+    "__docId__": 8,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -34,7 +189,7 @@
     }
   },
   {
-    "__docId__": 2,
+    "__docId__": 9,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -51,7 +206,7 @@
     "interface": false
   },
   {
-    "__docId__": 3,
+    "__docId__": 10,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -66,7 +221,7 @@
     "generator": false
   },
   {
-    "__docId__": 4,
+    "__docId__": 11,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -84,7 +239,7 @@
     }
   },
   {
-    "__docId__": 5,
+    "__docId__": 12,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -102,7 +257,7 @@
     }
   },
   {
-    "__docId__": 6,
+    "__docId__": 13,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -120,7 +275,7 @@
     }
   },
   {
-    "__docId__": 7,
+    "__docId__": 14,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -138,7 +293,7 @@
     }
   },
   {
-    "__docId__": 8,
+    "__docId__": 15,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -156,7 +311,7 @@
     }
   },
   {
-    "__docId__": 9,
+    "__docId__": 16,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -174,7 +329,7 @@
     }
   },
   {
-    "__docId__": 10,
+    "__docId__": 17,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -192,7 +347,7 @@
     }
   },
   {
-    "__docId__": 11,
+    "__docId__": 18,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -225,7 +380,7 @@
     "generator": false
   },
   {
-    "__docId__": 12,
+    "__docId__": 19,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -246,7 +401,329 @@
     }
   },
   {
-    "__docId__": 13,
+    "__docId__": 20,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "lib/model.js",
+    "memberof": null,
+    "longname": "lib/model.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import _ from 'lodash';\nimport Node from './node';\nimport { NotFoundError, ValidationError } from './errors';\n\nexport default class Model {\n\n\n    static findById = function(id, conditions, properties) {\n\n        const Model = this;\n\n        var query = [\n            'MATCH (node:'+Model.modelName+')',\n            'WHERE node.id = \"'+id+'\"',\n            'RETURN node',\n        ].join('\\n')\n\n        return this.db.cypherAsync({ query: query })\n            .then(response => {\n                if(!response.length) return null;\n                return new Node(Model, response[0]);\n            })\n\n\n    };\n\n    static updateById = function(id, node, conditions, properties) {\n\n        const Model = this;\n        const safeProps = this.schema.validate(node);\n\n        var query = [\n            'MATCH (node:'+Model.modelName+')',\n            'WHERE node.id = \"'+id+'\"',\n            'SET node += {props}',\n            'RETURN node',\n        ].join('\\n')\n\n        var params = {\n            props: safeProps\n        };\n\n        return this.db.cypherAsync({ query: query, params: params })\n            .then(response => {\n                if(!response.length) return null;\n                return new Node(Model, response[0]);\n            })\n\n\n    };\n\n    static find = function(conditions, properties) {\n\n        const Model = this;\n\n        var query = [\n            'MATCH (node:'+Model.modelName+')',\n            'RETURN node',\n        ].join('\\n')\n\n        return this.db.cypherAsync({ query: query })\n            .then(response => {\n                return response.map(function (node) {\n                    return new Node(Model, node);\n                });\n            })\n\n\n    };\n\n    static create = function(node) {\n\n        var newNode = new Node(this, node);\n        return newNode.save();\n\n    };\n\n\n    static compile(name, schema, db, base) {\n\n        // generate new Node\n        function model(node, fields, skipId) {\n          return new Node(model, node, fields, skipId);\n        }\n        model.modelName = name;\n        model.db = db;\n        model.base = base;\n        model.schema = schema;\n\n\n        // Inherit the functions of Model\n        for ( var i in Model){\n            if (typeof Model[i] === 'function') {\n              model[i] = Model[i];\n            }\n        }\n\n        return model;\n\n    }\n}\n"
+  },
+  {
+    "__docId__": 21,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "Model",
+    "memberof": "lib/model.js",
+    "longname": "lib/model.js~Model",
+    "access": null,
+    "export": true,
+    "importPath": "Neo4Jay/lib/model.js",
+    "importStyle": "Model",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 22,
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "compile",
+    "memberof": "lib/model.js~Model",
+    "longname": "lib/model.js~Model.compile",
+    "access": null,
+    "description": null,
+    "lineNumber": 79,
+    "undocument": true,
+    "params": [
+      {
+        "name": "name",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "schema",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "db",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "base",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 23,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "lib/node.js",
+    "memberof": null,
+    "longname": "lib/node.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import _ from 'lodash';\n/**\n * Node description\n * @param {object} obj    the actual node object\n * @param {object} fields optional object if any fields vas specified during the query\n * @param {boolean} skipId optinal boolean should we autogenerate id\n */\n\n export default class Node {\n     constructor(model, node, fields, skipId){\n\n\n         this.modelName = model.modelName;\n         this.model = model;\n         this.db = model.db;\n         this.base = model.base;\n         this.schema = model.schema;\n         this.selected = fields;\n\n\n         // Inherit the functions of the Model\n         for ( var i in model){\n             if (typeof model[i] === 'function') {\n               this[i] = model[i];\n             }\n         }\n\n         this._node = this.buildNode(node);\n\n     }\n\n     buildNode = function(node){\n\n        if(node.node){\n            var _node = {\n                ...node.node.properties,\n                type: node.node.labels[0]\n            }\n        }else{\n            var _node = {\n                ...node,\n                type: this.modelName\n            }\n        }\n\n        return _node;\n    }\n\n    save = function(){\n\n        const safeProps = this.schema.validate(this._node);\n\n        const Model = this.model;\n\n        var query = [\n            'CREATE (node:'+this.modelName+' {props})',\n            'RETURN node',\n        ].join('\\n');\n\n        var params = {\n            props: safeProps\n        };\n\n        return this.db.cypherAsync({ query: query, params: params })\n            .then(response => {\n                return new Node(Model, response[0]);\n            })\n\n    }\n\n\n\n    toJSON() {\n        return this._node;\n    }\n\n}\n"
+  },
+  {
+    "__docId__": 24,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "Node",
+    "memberof": "lib/node.js",
+    "longname": "lib/node.js~Node",
+    "access": null,
+    "export": true,
+    "importPath": "Neo4Jay/lib/node.js",
+    "importStyle": "Node",
+    "description": "Node description",
+    "lineNumber": 9,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "obj",
+        "description": "the actual node object"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "fields",
+        "description": "optional object if any fields vas specified during the query"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "boolean"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "skipId",
+        "description": "optinal boolean should we autogenerate id"
+      }
+    ],
+    "interface": false
+  },
+  {
+    "__docId__": 25,
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "lib/node.js~Node",
+    "longname": "lib/node.js~Node#constructor",
+    "access": null,
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "params": [
+      {
+        "name": "model",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "node",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "fields",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "skipId",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 26,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "modelName",
+    "memberof": "lib/node.js~Node",
+    "longname": "lib/node.js~Node#modelName",
+    "access": null,
+    "description": null,
+    "lineNumber": 13,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 27,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "model",
+    "memberof": "lib/node.js~Node",
+    "longname": "lib/node.js~Node#model",
+    "access": null,
+    "description": null,
+    "lineNumber": 14,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 28,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "db",
+    "memberof": "lib/node.js~Node",
+    "longname": "lib/node.js~Node#db",
+    "access": null,
+    "description": null,
+    "lineNumber": 15,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 29,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "base",
+    "memberof": "lib/node.js~Node",
+    "longname": "lib/node.js~Node#base",
+    "access": null,
+    "description": null,
+    "lineNumber": 16,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 30,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "schema",
+    "memberof": "lib/node.js~Node",
+    "longname": "lib/node.js~Node#schema",
+    "access": null,
+    "description": null,
+    "lineNumber": 17,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 31,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "selected",
+    "memberof": "lib/node.js~Node",
+    "longname": "lib/node.js~Node#selected",
+    "access": null,
+    "description": null,
+    "lineNumber": 18,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 32,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_node",
+    "memberof": "lib/node.js~Node",
+    "longname": "lib/node.js~Node#_node",
+    "access": null,
+    "description": null,
+    "lineNumber": 28,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 33,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "toJSON",
+    "memberof": "lib/node.js~Node",
+    "longname": "lib/node.js~Node#toJSON",
+    "access": null,
+    "description": null,
+    "lineNumber": 73,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 34,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -255,11 +732,11 @@
     "longname": "lib/relations/index.js",
     "access": null,
     "description": null,
-    "lineNumber": 3,
+    "lineNumber": 1,
     "content": "\n\nvar Relation = {};\n\nexport default Relation;\n"
   },
   {
-    "__docId__": 14,
+    "__docId__": 35,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -280,7 +757,270 @@
     }
   },
   {
-    "__docId__": 16,
+    "__docId__": 36,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "lib/schema.js",
+    "memberof": null,
+    "longname": "lib/schema.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import _ from 'lodash';\nimport shortid from 'shortid';\n/**\n* define the structure of your data,\n* schema specific methods,\n* indexes / constrains,\n* hooks,\n* validation,\n* relationships,\n*\n*/\nexport default class Schema {\n    /**\n     *\n     * Used to initialize a new schema.\n     *\n     * @example\n     * import Neo4Jay from 'neo4jay';\n     *\n     * const Schema = Neo4Jay.Schema;\n     *\n     * const ingredientSchema = new Schema({\n     * \tname: {\n     * \t\trequired: true,\n     * \t\ttype: String\n     * \t},\n     * \tdescription: {\n     * \t\ttype: String\n     * \t}\n     * })\n     *\n     */\n    constructor(object, options){\n\n        this._options = this._setOptions(options);\n        this._paths = this._setPaths(object);\n        this.methods = {};\n        this.relationships = {};\n\n    }\n\n    /**\n     * @access private\n     */\n    _setPaths(object){\n\n        var paths = {};\n\n        _.mapKeys(object, function(value, key) {\n            paths[key] = value;\n        });\n\n        if(this.options.id){\n            paths.id = {\n                unique: true,\n                index: true,\n                required: true,\n                constraint: true,\n                default: shortid.generate()\n            }\n        }\n\n        return paths;\n\n    }\n\n    /**\n     * @access private\n     */\n    _setOptions(options){\n\n        options = {\n            strict: true,\n            autoIndex: null,\n            validateBeforeSave: true,\n            id: true\n        };\n\n      return options;\n\n    }\n\n    /**\n     * Function to use for validating a node\n     * @param  {object} node - The node that will be evaluated\n     * @return {object} node - The evaluated node with added or removed properties.\n     * @throws {ValidationError} error - Thrown if an node violates the constraints given by the schema.\n     *\n     */\n    validate(node){\n\n        var _node = {};\n\n        _.mapKeys(this.paths, function(value, key) {\n\n            if(node[key]){\n                _node[key] = node[key]\n            } else {\n                if(value.required && !value.default) throw new error('missing property: '+key)\n                else _node[key] = value.default;\n            }\n\n        });\n\n        return _node;\n\n    }\n\n    /**\n     *\n     * Adds an instance relationship to documents constructed from Models compiled from this schema.\n     *\n     * @access public\n     * @param {string|object} name - name for the specified relationsship, or an object of muliple relationsships.\n     * @param {function} fn - relationsship to be added to the schema.\n     * @example\n     * ingredientSchema.relation({\n     * \t'HAS_NUTRIENTS': Relations.hasMany('Nutrients'),\n     * \t'HAS_INGREDIENT': Relations.belongsTo('IngredientType'),\n     * \t'CONTAINS_INGREDIENT': Relations.belongsToMany('Recipies'),\n     * })\n     *\n     */\n    relation(name, fn){\n        if ('string' != typeof name){\n            for (var i in name){\n                this.relationships[i] = name[i];\n            }\n        } else {\n            this.relationships[name] = fn;\n        }\n    }\n\n\n\n\n\n}\n"
+  },
+  {
+    "__docId__": 37,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "Schema",
+    "memberof": "lib/schema.js",
+    "longname": "lib/schema.js~Schema",
+    "access": null,
+    "export": true,
+    "importPath": "Neo4Jay/lib/schema.js",
+    "importStyle": "Schema",
+    "description": "define the structure of your data,\nschema specific methods,\nindexes / constrains,\nhooks,\nvalidation,\nrelationships,",
+    "lineNumber": 12,
+    "interface": false
+  },
+  {
+    "__docId__": 38,
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "lib/schema.js~Schema",
+    "longname": "lib/schema.js~Schema#constructor",
+    "access": null,
+    "description": "Used to initialize a new schema.",
+    "examples": [
+      "import Neo4Jay from 'neo4jay';\n\nconst Schema = Neo4Jay.Schema;\n\nconst ingredientSchema = new Schema({\n\tname: {\n\t\trequired: true,\n\t\ttype: String\n\t},\n\tdescription: {\n\t\ttype: String\n\t}\n})"
+    ],
+    "lineNumber": 33,
+    "params": [
+      {
+        "name": "object",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "options",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 39,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_options",
+    "memberof": "lib/schema.js~Schema",
+    "longname": "lib/schema.js~Schema#_options",
+    "access": null,
+    "description": null,
+    "lineNumber": 35,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 40,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_paths",
+    "memberof": "lib/schema.js~Schema",
+    "longname": "lib/schema.js~Schema#_paths",
+    "access": null,
+    "description": null,
+    "lineNumber": 36,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 41,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "methods",
+    "memberof": "lib/schema.js~Schema",
+    "longname": "lib/schema.js~Schema#methods",
+    "access": null,
+    "description": null,
+    "lineNumber": 37,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 42,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "relationships",
+    "memberof": "lib/schema.js~Schema",
+    "longname": "lib/schema.js~Schema#relationships",
+    "access": null,
+    "description": null,
+    "lineNumber": 38,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 43,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_setPaths",
+    "memberof": "lib/schema.js~Schema",
+    "longname": "lib/schema.js~Schema#_setPaths",
+    "access": "private",
+    "description": null,
+    "lineNumber": 45,
+    "params": [
+      {
+        "name": "object",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 44,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_setOptions",
+    "memberof": "lib/schema.js~Schema",
+    "longname": "lib/schema.js~Schema#_setOptions",
+    "access": "private",
+    "description": null,
+    "lineNumber": 70,
+    "params": [
+      {
+        "name": "options",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 45,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "validate",
+    "memberof": "lib/schema.js~Schema",
+    "longname": "lib/schema.js~Schema#validate",
+    "access": null,
+    "description": "Function to use for validating a node",
+    "lineNumber": 90,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "node",
+        "description": "The node that will be evaluated"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "object"
+      ],
+      "spread": false,
+      "description": "node - The evaluated node with added or removed properties."
+    },
+    "throws": [
+      {
+        "types": [
+          "ValidationError"
+        ],
+        "description": "error - Thrown if an node violates the constraints given by the schema."
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 46,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "relation",
+    "memberof": "lib/schema.js~Schema",
+    "longname": "lib/schema.js~Schema#relation",
+    "access": "public",
+    "description": "Adds an instance relationship to documents constructed from Models compiled from this schema.",
+    "examples": [
+      "ingredientSchema.relation({\n\t'HAS_NUTRIENTS': Relations.hasMany('Nutrients'),\n\t'HAS_INGREDIENT': Relations.belongsTo('IngredientType'),\n\t'CONTAINS_INGREDIENT': Relations.belongsToMany('Recipies'),\n})"
+    ],
+    "lineNumber": 124,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string",
+          "object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "name",
+        "description": "name for the specified relationsship, or an object of muliple relationsships."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "function"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "fn",
+        "description": "relationsship to be added to the schema."
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 48,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -293,7 +1033,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 17,
+    "__docId__": 49,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -306,7 +1046,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 18,
+    "__docId__": 50,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -319,7 +1059,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 19,
+    "__docId__": 51,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -332,7 +1072,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 20,
+    "__docId__": 52,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -345,7 +1085,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 21,
+    "__docId__": 53,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -358,7 +1098,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 22,
+    "__docId__": 54,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -371,7 +1111,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 23,
+    "__docId__": 55,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -384,7 +1124,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 24,
+    "__docId__": 56,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -397,7 +1137,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 25,
+    "__docId__": 57,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -410,7 +1150,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 26,
+    "__docId__": 58,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -423,7 +1163,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 27,
+    "__docId__": 59,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -436,7 +1176,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 28,
+    "__docId__": 60,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -449,7 +1189,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 29,
+    "__docId__": 61,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -462,7 +1202,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 30,
+    "__docId__": 62,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -475,7 +1215,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 31,
+    "__docId__": 63,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -488,7 +1228,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 32,
+    "__docId__": 64,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -501,7 +1241,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 33,
+    "__docId__": 65,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -514,7 +1254,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 34,
+    "__docId__": 66,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -527,7 +1267,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 35,
+    "__docId__": 67,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -540,7 +1280,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 36,
+    "__docId__": 68,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -553,7 +1293,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 37,
+    "__docId__": 69,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -566,7 +1306,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 38,
+    "__docId__": 70,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -579,7 +1319,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 39,
+    "__docId__": 71,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -592,7 +1332,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 40,
+    "__docId__": 72,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -605,7 +1345,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 41,
+    "__docId__": 73,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -618,7 +1358,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 42,
+    "__docId__": 74,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -631,7 +1371,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 43,
+    "__docId__": 75,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -644,7 +1384,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 44,
+    "__docId__": 76,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -657,7 +1397,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 45,
+    "__docId__": 77,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -670,7 +1410,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 46,
+    "__docId__": 78,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -683,7 +1423,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 47,
+    "__docId__": 79,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -696,7 +1436,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 48,
+    "__docId__": 80,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -709,7 +1449,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 49,
+    "__docId__": 81,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -722,7 +1462,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 50,
+    "__docId__": 82,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -735,7 +1475,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 51,
+    "__docId__": 83,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -748,7 +1488,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 52,
+    "__docId__": 84,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -761,7 +1501,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 53,
+    "__docId__": 85,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -774,7 +1514,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 54,
+    "__docId__": 86,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -787,7 +1527,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 55,
+    "__docId__": 87,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -800,7 +1540,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 56,
+    "__docId__": 88,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -813,7 +1553,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 57,
+    "__docId__": 89,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -826,7 +1566,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 58,
+    "__docId__": 90,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -839,7 +1579,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 59,
+    "__docId__": 91,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -852,7 +1592,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 60,
+    "__docId__": 92,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -865,7 +1605,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 61,
+    "__docId__": 93,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -878,7 +1618,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 62,
+    "__docId__": 94,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -891,7 +1631,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 64,
+    "__docId__": 96,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -904,7 +1644,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 65,
+    "__docId__": 97,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -917,7 +1657,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 66,
+    "__docId__": 98,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -930,7 +1670,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 67,
+    "__docId__": 99,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -943,7 +1683,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 68,
+    "__docId__": 100,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -956,7 +1696,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 69,
+    "__docId__": 101,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -969,7 +1709,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 70,
+    "__docId__": 102,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -982,7 +1722,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 71,
+    "__docId__": 103,
     "kind": "external",
     "static": true,
     "variation": null,
