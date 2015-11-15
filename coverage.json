@@ -1,0 +1,47 @@
+{
+  "coverage": "11.11%",
+  "expectCount": 18,
+  "actualCount": 2,
+  "files": {
+    "lib/model.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        5,
+        79
+      ]
+    },
+    "lib/node.js": {
+      "expectCount": 9,
+      "actualCount": 1,
+      "undocumentLines": [
+        16,
+        10,
+        15,
+        14,
+        13,
+        17,
+        18,
+        73
+      ]
+    },
+    "lib/relations/index.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "lib/schema.js": {
+      "expectCount": 6,
+      "actualCount": 1,
+      "undocumentLines": [
+        14,
+        18,
+        16,
+        17,
+        19
+      ]
+    }
+  }
+}
