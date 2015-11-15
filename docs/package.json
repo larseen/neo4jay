@@ -1,0 +1,27 @@
+{
+  "name": "Neo4Jay",
+  "version": "0.0.0",
+  "dependencies": {
+    "async": "^1.4.0",
+    "lodash": "3.10.0",
+    "neo4j": "2.0.0-RC2",
+    "shortid": "^2.2.4"
+  },
+  "devDependencies": {
+    "babel-eslint": "4.1.3",
+    "chai": "^3.4.0",
+    "eslint": "1.6.0",
+    "eslint-config-airbnb": "0.1.0",
+    "eslint-config-webkom": "0.3.1",
+    "mocha": "^2.3.3",
+    "supertest": "1.1.0",
+    "esdoc": "1.0.0"
+  },
+  "scripts": {
+    "watch": "nodemon --exec npm start",
+    "start": "babel-node src/index.js",
+    "test": "NODE_ENV=test mocha --compilers js:babel/register $(find test -name '*.test.js')",
+    "lint": "eslint --ignore-path .gitignore .",
+    "docs": "esdoc -c esdoc.json"
+  }
+}
