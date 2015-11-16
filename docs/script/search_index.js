@@ -1,5 +1,11 @@
 window.esdocSearchIndex = [
   [
+    "neo4jay/lib/cypher.js~cypher",
+    "class/lib/cypher.js~Cypher.html",
+    "<span>Cypher</span> <span class=\"search-result-import-path\">Neo4Jay/lib/cypher.js</span>",
+    "class"
+  ],
+  [
     "neo4jay/lib/model.js~model",
     "class/lib/model.js~Model.html",
     "<span>Model</span> <span class=\"search-result-import-path\">Neo4Jay/lib/model.js</span>",
@@ -18,12 +24,6 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "neo4jay/lib/relations/index.js~relation",
-    "variable/index.html#static-variable-Relation",
-    "<span>Relation</span> <span class=\"search-result-import-path\">Neo4Jay/lib/relations/index.js</span>",
-    "variable"
-  ],
-  [
     "neo4jay/lib/schema.js~schema",
     "class/lib/schema.js~Schema.html",
     "<span>Schema</span> <span class=\"search-result-import-path\">Neo4Jay/lib/schema.js</span>",
@@ -34,6 +34,30 @@ window.esdocSearchIndex = [
     "class/lib/errors.js~ValidationError.html",
     "<span>ValidationError</span> <span class=\"search-result-import-path\">Neo4Jay/lib/errors.js</span>",
     "class"
+  ],
+  [
+    "neo4jay/lib/relations/belongstoone.js~belongstoone",
+    "class/lib/relations/belongsToOne.js~belongsToOne.html",
+    "<span>belongsToOne</span> <span class=\"search-result-import-path\">Neo4Jay/lib/relations/belongsToOne.js</span>",
+    "class"
+  ],
+  [
+    "neo4jay/lib/relations/index.js~belongstoone",
+    "function/index.html#static-function-belongsToOne",
+    "<span>belongsToOne</span> <span class=\"search-result-import-path\">Neo4Jay/lib/relations/index.js</span>",
+    "function"
+  ],
+  [
+    "neo4jay/lib/relations/hasmany.js~hasmany",
+    "class/lib/relations/hasMany.js~hasMany.html",
+    "<span>hasMany</span> <span class=\"search-result-import-path\">Neo4Jay/lib/relations/hasMany.js</span>",
+    "class"
+  ],
+  [
+    "neo4jay/lib/relations/index.js~hasmany",
+    "function/index.html#static-function-hasMany",
+    "<span>hasMany</span> <span class=\"search-result-import-path\">Neo4Jay/lib/relations/index.js</span>",
+    "function"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~array",
@@ -366,6 +390,48 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
+    "lib/cypher.js",
+    "file/lib/cypher.js.html",
+    "lib/cypher.js",
+    "file"
+  ],
+  [
+    "lib/cypher.js~cypher#auth",
+    "class/lib/cypher.js~Cypher.html#instance-member-auth",
+    "lib/cypher.js~Cypher#auth",
+    "member"
+  ],
+  [
+    "lib/cypher.js~cypher#constructor",
+    "class/lib/cypher.js~Cypher.html#instance-constructor-constructor",
+    "lib/cypher.js~Cypher#constructor",
+    "method"
+  ],
+  [
+    "lib/cypher.js~cypher#cypher",
+    "class/lib/cypher.js~Cypher.html#instance-method-cypher",
+    "lib/cypher.js~Cypher#cypher",
+    "method"
+  ],
+  [
+    "lib/cypher.js~cypher#headers",
+    "class/lib/cypher.js~Cypher.html#instance-member-headers",
+    "lib/cypher.js~Cypher#headers",
+    "member"
+  ],
+  [
+    "lib/cypher.js~cypher#http",
+    "class/lib/cypher.js~Cypher.html#instance-method-http",
+    "lib/cypher.js~Cypher#http",
+    "method"
+  ],
+  [
+    "lib/cypher.js~cypher#url",
+    "class/lib/cypher.js~Cypher.html#instance-member-url",
+    "lib/cypher.js~Cypher#url",
+    "member"
+  ],
+  [
     "lib/errors.js",
     "file/lib/errors.js.html",
     "lib/errors.js",
@@ -468,6 +534,102 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "lib/relations/belongstoone.js",
+    "file/lib/relations/belongsToOne.js.html",
+    "lib/relations/belongsToOne.js",
+    "file"
+  ],
+  [
+    "lib/relations/belongstoone.js~belongstoone#associationtype",
+    "class/lib/relations/belongsToOne.js~belongsToOne.html#instance-member-associationType",
+    "lib/relations/belongsToOne.js~belongsToOne#associationType",
+    "member"
+  ],
+  [
+    "lib/relations/belongstoone.js~belongstoone#constructor",
+    "class/lib/relations/belongsToOne.js~belongsToOne.html#instance-constructor-constructor",
+    "lib/relations/belongsToOne.js~belongsToOne#constructor",
+    "method"
+  ],
+  [
+    "lib/relations/belongstoone.js~belongstoone#name",
+    "class/lib/relations/belongsToOne.js~belongsToOne.html#instance-member-name",
+    "lib/relations/belongsToOne.js~belongsToOne#name",
+    "member"
+  ],
+  [
+    "lib/relations/belongstoone.js~belongstoone#options",
+    "class/lib/relations/belongsToOne.js~belongsToOne.html#instance-member-options",
+    "lib/relations/belongsToOne.js~belongsToOne#options",
+    "member"
+  ],
+  [
+    "lib/relations/belongstoone.js~belongstoone#schema",
+    "class/lib/relations/belongsToOne.js~belongsToOne.html#instance-member-schema",
+    "lib/relations/belongsToOne.js~belongsToOne#schema",
+    "member"
+  ],
+  [
+    "lib/relations/belongstoone.js~belongstoone#singlerelationsship",
+    "class/lib/relations/belongsToOne.js~belongsToOne.html#instance-member-singleRelationsship",
+    "lib/relations/belongsToOne.js~belongsToOne#singleRelationsship",
+    "member"
+  ],
+  [
+    "lib/relations/belongstoone.js~belongstoone#target",
+    "class/lib/relations/belongsToOne.js~belongsToOne.html#instance-member-target",
+    "lib/relations/belongsToOne.js~belongsToOne#target",
+    "member"
+  ],
+  [
+    "lib/relations/hasmany.js",
+    "file/lib/relations/hasMany.js.html",
+    "lib/relations/hasMany.js",
+    "file"
+  ],
+  [
+    "lib/relations/hasmany.js~hasmany#constructor",
+    "class/lib/relations/hasMany.js~hasMany.html#instance-constructor-constructor",
+    "lib/relations/hasMany.js~hasMany#constructor",
+    "method"
+  ],
+  [
+    "lib/relations/hasmany.js~hasmany#name",
+    "class/lib/relations/hasMany.js~hasMany.html#instance-member-name",
+    "lib/relations/hasMany.js~hasMany#name",
+    "member"
+  ],
+  [
+    "lib/relations/hasmany.js~hasmany#options",
+    "class/lib/relations/hasMany.js~hasMany.html#instance-member-options",
+    "lib/relations/hasMany.js~hasMany#options",
+    "member"
+  ],
+  [
+    "lib/relations/hasmany.js~hasmany#relationshiptype",
+    "class/lib/relations/hasMany.js~hasMany.html#instance-member-relationshipType",
+    "lib/relations/hasMany.js~hasMany#relationshipType",
+    "member"
+  ],
+  [
+    "lib/relations/hasmany.js~hasmany#schema",
+    "class/lib/relations/hasMany.js~hasMany.html#instance-member-schema",
+    "lib/relations/hasMany.js~hasMany#schema",
+    "member"
+  ],
+  [
+    "lib/relations/hasmany.js~hasmany#singlerelationsship",
+    "class/lib/relations/hasMany.js~hasMany.html#instance-member-singleRelationsship",
+    "lib/relations/hasMany.js~hasMany#singleRelationsship",
+    "member"
+  ],
+  [
+    "lib/relations/hasmany.js~hasmany#target",
+    "class/lib/relations/hasMany.js~hasMany.html#instance-member-target",
+    "lib/relations/hasMany.js~hasMany#target",
+    "member"
+  ],
+  [
     "lib/relations/index.js",
     "file/lib/relations/index.js.html",
     "lib/relations/index.js",
@@ -492,16 +654,16 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "lib/schema.js~schema#relation",
-    "class/lib/schema.js~Schema.html#instance-method-relation",
-    "lib/schema.js~Schema#relation",
-    "method"
-  ],
-  [
     "lib/schema.js~schema#relationships",
     "class/lib/schema.js~Schema.html#instance-member-relationships",
     "lib/schema.js~Schema#relationships",
     "member"
+  ],
+  [
+    "lib/schema.js~schema#relationsship",
+    "class/lib/schema.js~Schema.html#instance-method-relationsship",
+    "lib/schema.js~Schema#relationsship",
+    "method"
   ],
   [
     "lib/schema.js~schema#validate",

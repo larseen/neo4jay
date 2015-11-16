@@ -32,12 +32,16 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~NotFoundError.html">NotFoundError</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/cypher.js~Cypher.html">Cypher</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~NotFoundError.html">NotFoundError</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~ValidationError.html">ValidationError</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/model.js~Model.html">Model</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/node.js~Node.html">Node</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/schema.js~Schema.html">Schema</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">relations</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Relation">Relation</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">relations</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/relations/belongsToOne.js~belongsToOne.html">belongsToOne</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/relations/hasMany.js~hasMany.html">hasMany</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-belongsToOne">belongsToOne</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-hasMany">hasMany</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -45,42 +49,49 @@
 <div class="content" data-ice="content"><h1 data-ice="title">lib/index.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Model from &apos;./model&apos;;
 import Node from &apos;./node&apos;;
-import Schema from &apos;./Schema&apos;;
-import Relations from &apos;./relations&apos;;
+import Schema from &apos;./schema&apos;;
+import * as Relations from &apos;./relations&apos;;
 import Bluebird from &apos;bluebird&apos;;
-import config from &apos;../../config/&apos;
-import Neo4j from &apos;neo4j&apos;;
-Bluebird.promisifyAll(Neo4j)
-const db = new Neo4j.GraphDatabase(config.neo4j);
+import Cypher from &apos;./cypher&apos;;
 
 class Neo4Jay {
     constructor(){
 
-        this.db = db;
+
         this.models = {};
         this.modelSchemas = {};
         this.Schema = Schema;
         this.Model = Model;
         this.Node = Node;
         this.Relations = Relations;
+        this.Cypher = new Cypher({
+            url: &apos;http://localhost:7474&apos;,
+            auth: {
+                username: &apos;neo4j&apos;,
+                password: &apos;password&apos;
+            }
+        });
 
     }
 
 
+
+
     model(name, schema){
+
         // generate new Model
         function model(node, fields, skipId) {
           return new Node(model, node, fields, skipId);
         }
 
-        model = Model.compile(name, schema, db, this);
+        model = Model.compile(name, schema, neo4jay.Cypher, neo4jay);
         neo4jay.models[name] = model
         return model;
     }
 
 }
 
-var neo4jay = module.exports = exports = new Neo4Jay;
+var neo4jay = module.exports = exports = new Neo4Jay();
 </code></pre>
 
 </div>

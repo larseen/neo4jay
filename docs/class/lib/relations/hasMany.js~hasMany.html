@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">Node | API Document</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">hasMany | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -47,17 +47,17 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Node from &apos;<span><a href="file/lib/node.js.html#lineNumber9">Neo4Jay/lib/node.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import hasMany from &apos;<span><a href="file/lib/relations/hasMany.js.html#lineNumber3">Neo4Jay/lib/relations/hasMany.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/lib/node.js.html#lineNumber9">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/lib/relations/hasMany.js.html#lineNumber3">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
-  <h1 data-ice="name">Node</h1>
+  <h1 data-ice="name">hasMany</h1>
 
   
 
@@ -73,8 +73,7 @@
 
   
   
-  <div class="description" data-ice="description"><p>Node description</p>
-</div>
+  
 
   
 
@@ -102,7 +101,7 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/lib/node.js~Node.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(model: <span>*</span>, node: <span>*</span>, fields: <span>*</span>, skipId: <span>*</span>)</span>
+           <span data-ice="name"><span><a href="class/lib/relations/hasMany.js~hasMany.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(targetModel: <span>*</span>, options: <span>*</span>)</span>
         </p>
       </div>
       <div>
@@ -134,7 +133,7 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/lib/node.js~Node.html#instance-member-base">base</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/lib/relations/hasMany.js~hasMany.html#instance-member-name">name</a></span></span><span data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
@@ -159,7 +158,7 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/lib/node.js~Node.html#instance-member-db">db</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/lib/relations/hasMany.js~hasMany.html#instance-member-options">options</a></span></span><span data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
@@ -184,7 +183,7 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/lib/node.js~Node.html#instance-member-model">model</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/lib/relations/hasMany.js~hasMany.html#instance-member-relationshipType">relationshipType</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
         </p>
       </div>
       <div>
@@ -209,7 +208,7 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/lib/node.js~Node.html#instance-member-modelName">modelName</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/lib/relations/hasMany.js~hasMany.html#instance-member-schema">schema</a></span></span><span data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
@@ -234,7 +233,7 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/lib/node.js~Node.html#instance-member-schema">schema</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/lib/relations/hasMany.js~hasMany.html#instance-member-singleRelationsship">singleRelationsship</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
         </p>
       </div>
       <div>
@@ -259,7 +258,7 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/lib/node.js~Node.html#instance-member-selected">selected</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/lib/relations/hasMany.js~hasMany.html#instance-member-target">target</a></span></span><span data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
@@ -276,38 +275,7 @@
 </tbody>
 </table>
 </div>
-<div data-ice="methodSummary"><h2>Method Summary</h2><table class="summary" data-ice="summary">
-  <thead><tr><td data-ice="title" colspan="3">Public Methods</td></tr></thead>
-  <tbody>
-  
-  <tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-           <span data-ice="name"><span><a href="class/lib/node.js~Node.html#instance-method-toJSON">toJSON</a></span></span><span data-ice="signature">(): <span>*</span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-</tbody>
-</table>
-</div>
+
 
 
 
@@ -322,11 +290,11 @@
     
     
     
-    <span data-ice="name">constructor</span><span data-ice="signature">(model: <span>*</span>, node: <span>*</span>, fields: <span>*</span>, skipId: <span>*</span>)</span>
+    <span data-ice="name">constructor</span><span data-ice="signature">(targetModel: <span>*</span>, options: <span>*</span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/node.js.html#lineNumber10">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/relations/hasMany.js.html#lineNumber4">source</a></span></span>
     </span>
   </h3>
 
@@ -346,25 +314,13 @@
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">model</td>
+      <td data-ice="name" data-depth="0">targetModel</td>
       <td data-ice="type"><span>*</span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"></td>
     </tr>
 <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">node</td>
-      <td data-ice="type"><span>*</span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"></td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">fields</td>
-      <td data-ice="type"><span>*</span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"></td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">skipId</td>
+      <td data-ice="name" data-depth="0">options</td>
       <td data-ice="type"><span>*</span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"></td>
@@ -393,17 +349,17 @@
 <div data-ice="memberDetails"><h2 data-ice="title">Public Members</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-base">
+  <h3 data-ice="anchor" id="instance-member-name">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">base</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">name</span><span data-ice="signature">: <span>*</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/node.js.html#lineNumber16">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/relations/hasMany.js.html#lineNumber10">source</a></span></span>
     </span>
   </h3>
 
@@ -433,17 +389,17 @@
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-db">
+  <h3 data-ice="anchor" id="instance-member-options">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">db</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">options</span><span data-ice="signature">: <span>*</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/node.js.html#lineNumber15">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/relations/hasMany.js.html#lineNumber8">source</a></span></span>
     </span>
   </h3>
 
@@ -473,57 +429,17 @@
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-model">
+  <h3 data-ice="anchor" id="instance-member-relationshipType">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">model</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">relationshipType</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/node.js.html#lineNumber14">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-modelName">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    <span data-ice="name">modelName</span><span data-ice="signature">: <span>*</span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/lib/node.js.html#lineNumber13">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/relations/hasMany.js.html#lineNumber6">source</a></span></span>
     </span>
   </h3>
 
@@ -563,7 +479,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/node.js.html#lineNumber17">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/relations/hasMany.js.html#lineNumber11">source</a></span></span>
     </span>
   </h3>
 
@@ -593,17 +509,17 @@
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-selected">
+  <h3 data-ice="anchor" id="instance-member-singleRelationsship">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">selected</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">singleRelationsship</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/node.js.html#lineNumber18">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/relations/hasMany.js.html#lineNumber9">source</a></span></span>
     </span>
   </h3>
 
@@ -632,21 +548,18 @@
   
   
 </div>
-</div>
-<div data-ice="methodDetails"><h2 data-ice="title">Public Methods</h2>
-
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-toJSON">
+  <h3 data-ice="anchor" id="instance-member-target">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">toJSON</span><span data-ice="signature">(): <span>*</span></span>
+    <span data-ice="name">target</span><span data-ice="signature">: <span>*</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/node.js.html#lineNumber62">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/relations/hasMany.js.html#lineNumber7">source</a></span></span>
     </span>
   </h3>
 
@@ -660,17 +573,7 @@
   <div data-ice="properties">
 </div>
 
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tr>
-        <td class="return-type" data-ice="returnType"><span>*</span></td>
-        
-      </tr>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
+  
 
   
 
@@ -686,6 +589,7 @@
   
 </div>
 </div>
+
 </div>
 
 <footer class="footer">

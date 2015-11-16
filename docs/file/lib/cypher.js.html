@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">lib/cypher.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/cypher.js~Cypher.html">Cypher</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~NotFoundError.html">NotFoundError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/errors.js~ValidationError.html">ValidationError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/model.js~Model.html">Model</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/node.js~Node.html">Node</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/schema.js~Schema.html">Schema</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">relations</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/relations/belongsToOne.js~belongsToOne.html">belongsToOne</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/relations/hasMany.js~hasMany.html">hasMany</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-belongsToOne">belongsToOne</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-hasMany">hasMany</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">lib/cypher.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import _ from &apos;lodash&apos;;
+import Bluebird from &apos;bluebird&apos;;
+import Request from &apos;request-promise&apos;;
+import URL from &apos;url&apos;;
+
+export default class Cypher {
+    constructor(options){
+        var uri, _ref;
+
+        if (options == null) {
+            options = {};
+        }
+
+        if (_.isString(options)) {
+            options = {
+                url: options
+            };
+        }
+
+        this.url = options.url;
+        this.auth = options.auth;
+        this.headers = options.headers || &apos;Neo4Jay&apos;;
+
+        if (!this.url) {
+            throw new TypeError(&apos;URL to Neo4j required&apos;);
+        }
+
+        uri = URL.parse(this.url);
+        if (uri.auth &amp;&amp; (this.auth != null)) {
+            delete uri.auth;
+            this.url = URL.format(uri);
+        }
+
+        this.auth = this._normalizeAuth((_ref = this.auth) != null ? _ref : uri.auth);
+
+    }
+
+    http(options){
+
+        if (options == null) {
+            options = {};
+        }
+        if (_.isString(options)) {
+            options = {
+                path: options
+            };
+        }
+
+        var method = options.method;
+        var path = options.path;
+        var headers = options.headers;
+        var body = options.body;
+        var raw = options.raw;
+
+        if (!path) {
+            throw new TypeError(&apos;Path required&apos;);
+        }
+        method || (method = &apos;GET&apos;);
+        headers || (headers = {});
+        headers = this.headers + &apos;X-Stream: true&apos;;
+
+        return Request({
+            method: method,
+            url: URL.resolve(this.url, path),
+            proxy: this.proxy,
+            auth: this.auth,
+            headers: headers,
+            agent: this.agent,
+            json: body != null ? body : true,
+            encoding: &apos;utf8&apos;,
+            gzip: true
+        })
+    }
+
+    cypher(options){
+        var queries, format, headers, opts;
+        if (options == null) {
+            options = {};
+        }
+        if (_.isString(options)) {
+            options = {
+                query: options
+            };
+        }
+
+        if (!options.query) {
+          throw new TypeError(&apos;Query required&apos;);
+        }
+
+        const method = &apos;POST&apos;;
+        const path = &apos;/db/data/transaction&apos;;
+
+        if (options.query) {
+            queries = [{
+                query: options.query,
+                params: options.params,
+                lean: options.lean
+            }];
+        }
+        var single = true;
+        var formats = [];
+        var body = {
+          statements: (function() {
+              var _i, _len, _ref, _results;
+              _results = [];
+              for (_i = 0, _len = queries.length; _i &lt; _len; _i++) {
+                  var query = queries[_i];
+                    if (_.isString(query)) {
+                        query = {
+                            query: query
+                        };
+                    }
+                const _ref = query;
+                query = _ref.query;
+                const params = _ref.params;
+                const lean = _ref.lean;
+                formats.push(format = lean ? &apos;row&apos; : &apos;row&apos;);
+                _results.push({
+                    statement: query,
+                    parameters: params || {},
+                    resultDataContents: [format]
+                });
+            }
+            return _results;
+          })()
+        };
+        return this.http({
+          method: method,
+          path: path,
+          headers: headers,
+          body: body,
+          raw: true
+        })
+        .then(response =&gt; {
+
+            var _results = [];
+            _.forEach(response.results, function(result){
+                const columns = result.columns
+
+                _.forEach(result.data, function(data, index){
+                    data = data.row;
+                    var inserted = false;
+                    var node;
+
+                    _.each(_results, function(node, index) {
+                       if(_.isEqual(node.id, data[0].id)){
+                           inserted = true;
+                           for (var i = 1; i &lt; data.length-1; i++) {
+                               if(!_results[index][columns[i]]){
+                                   _results[index][columns[i]] = [];
+                               }
+                               _results[index][columns[i]].push({
+                                   ...data[i],
+                                   ...data[i+1]
+                               });
+                           }
+                       }
+                    })
+
+                    if(!inserted){
+                        node = data[0]
+                        for (var i = 1; i &lt; data.length-1; i++) {
+                            if(!data[i+1]){
+                                break;
+                            }
+                           node[columns[i]] = [];
+                           node[columns[i]].push({
+                               ...data[i],
+                               ...data[i+1]
+                           });
+                        }
+                        _results.push(node)
+                    }
+
+                })
+            })
+            return _results;
+        })
+
+    }
+
+    _normalizeAuth = function(auth) {
+        var password, passwordParts, username, _ref;
+        if (!auth) {
+            return null;
+        }
+        if (typeof auth === &apos;string&apos;) {
+            _ref = auth.split(&apos;:&apos;), username = _ref[0], passwordParts = 2 &lt;= _ref.length ? __slice.call(_ref, 1) : [];
+            password = passwordParts.join(&apos;:&apos;);
+            auth = {
+                username: username,
+                password: password
+            };
+        }
+        if ((Object.keys(auth)).length === 0) {
+            return null;
+        }
+        return auth;
+    };
+
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.3)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

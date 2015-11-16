@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">Schema | API Document</title>
+  <title data-ice="title">Cypher | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -47,17 +47,17 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Schema from &apos;<span><a href="file/lib/schema.js.html#lineNumber12">Neo4Jay/lib/schema.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Cypher from &apos;<span><a href="file/lib/cypher.js.html#lineNumber6">Neo4Jay/lib/cypher.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/lib/schema.js.html#lineNumber12">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/lib/cypher.js.html#lineNumber6">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
-  <h1 data-ice="name">Schema</h1>
+  <h1 data-ice="name">Cypher</h1>
 
   
 
@@ -73,13 +73,7 @@
 
   
   
-  <div class="description" data-ice="description"><p>define the structure of your data,
-schema specific methods,
-indexes / constrains,
-hooks,
-validation,
-relationships,</p>
-</div>
+  
 
   
 
@@ -107,14 +101,13 @@ relationships,</p>
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/lib/schema.js~Schema.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(object: <span>*</span>, options: <span>*</span>)</span>
+           <span data-ice="name"><span><a href="class/lib/cypher.js~Cypher.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(options: <span>*</span>)</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Used to initialize a new schema.</p>
-</div>
+        
       </div>
     </td>
     <td>
@@ -140,7 +133,7 @@ relationships,</p>
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/lib/schema.js~Schema.html#instance-member-methods">methods</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/lib/cypher.js~Cypher.html#instance-member-auth">auth</a></span></span><span data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
@@ -165,7 +158,32 @@ relationships,</p>
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/lib/schema.js~Schema.html#instance-member-relationships">relationships</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/lib/cypher.js~Cypher.html#instance-member-headers">headers</a></span></span><span data-ice="signature">: <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+           <span data-ice="name"><span><a href="class/lib/cypher.js~Cypher.html#instance-member-url">url</a></span></span><span data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
@@ -197,14 +215,13 @@ relationships,</p>
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/lib/schema.js~Schema.html#instance-method-relationsship">relationsship</a></span></span><span data-ice="signature">(rel: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span>)</span>
+           <span data-ice="name"><span><a href="class/lib/cypher.js~Cypher.html#instance-method-cypher">cypher</a></span></span><span data-ice="signature">(options: <span>*</span>): <span>*</span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Adds an instance relationship to documents constructed from Models compiled from this schema.</p>
-</div>
+        
       </div>
     </td>
     <td>
@@ -223,14 +240,13 @@ relationships,</p>
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/lib/schema.js~Schema.html#instance-method-validate">validate</a></span></span><span data-ice="signature">(node: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
+           <span data-ice="name"><span><a href="class/lib/cypher.js~Cypher.html#instance-method-http">http</a></span></span><span data-ice="signature">(options: <span>*</span>): <span>*</span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Function to use for validating a node</p>
-</div>
+        
       </div>
     </td>
     <td>
@@ -255,19 +271,18 @@ relationships,</p>
     
     
     
-    <span data-ice="name">constructor</span><span data-ice="signature">(object: <span>*</span>, options: <span>*</span>)</span>
+    <span data-ice="name">constructor</span><span data-ice="signature">(options: <span>*</span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/schema.js.html#lineNumber33">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/cypher.js.html#lineNumber7">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Used to initialize a new schema.</p>
-</div>
+  
 
   
 
@@ -280,12 +295,6 @@ relationships,</p>
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">object</td>
-      <td data-ice="type"><span>*</span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"></td>
-    </tr>
-<tr data-ice="property" data-depth="0">
       <td data-ice="name" data-depth="0">options</td>
       <td data-ice="type"><span>*</span></td>
       <td data-ice="appendix"></td>
@@ -304,26 +313,7 @@ relationships,</p>
 
   
 
-  <div data-ice="example">
-    <h4>Example:</h4>
-    
-  <div class="example-doc" data-ice="exampleDoc">
-      
-      <pre class="prettyprint source-code"><code data-ice="exampleCode">import Neo4Jay from &apos;neo4jay&apos;;
-
-const Schema = Neo4Jay.Schema;
-
-const ingredientSchema = new Schema({
-	name: {
-		required: true,
-		type: String
-	},
-	description: {
-		type: String
-	}
-})</code></pre>
-    </div>
-</div>
+  
 
   
 
@@ -334,17 +324,17 @@ const ingredientSchema = new Schema({
 <div data-ice="memberDetails"><h2 data-ice="title">Public Members</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-methods">
+  <h3 data-ice="anchor" id="instance-member-auth">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">methods</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">auth</span><span data-ice="signature">: <span>*</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/schema.js.html#lineNumber37">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/cypher.js.html#lineNumber21">source</a></span></span>
     </span>
   </h3>
 
@@ -374,17 +364,57 @@ const ingredientSchema = new Schema({
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-relationships">
+  <h3 data-ice="anchor" id="instance-member-headers">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">relationships</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">headers</span><span data-ice="signature">: <span>*</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/schema.js.html#lineNumber38">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/cypher.js.html#lineNumber22">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-url">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">url</span><span data-ice="signature">: <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/lib/cypher.js.html#lineNumber20">source</a></span></span>
     </span>
   </h3>
 
@@ -417,25 +447,24 @@ const ingredientSchema = new Schema({
 <div data-ice="methodDetails"><h2 data-ice="title">Public Methods</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-relationsship">
+  <h3 data-ice="anchor" id="instance-method-cypher">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">relationsship</span><span data-ice="signature">(rel: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span>)</span>
+    <span data-ice="name">cypher</span><span data-ice="signature">(options: <span>*</span>): <span>*</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/schema.js.html#lineNumber144">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/cypher.js.html#lineNumber75">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Adds an instance relationship to documents constructed from Models compiled from this schema.</p>
-</div>
+  
 
   
 
@@ -448,103 +477,10 @@ const ingredientSchema = new Schema({
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">rel</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span></td>
+      <td data-ice="name" data-depth="0">options</td>
+      <td data-ice="type"><span>*</span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The relation type and options for the specific relationship, can only accept one relationship at the time.</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  <div data-ice="example">
-    <h4>Example:</h4>
-    
-  <div class="example-doc" data-ice="exampleDoc">
-      
-      <pre class="prettyprint source-code"><code data-ice="exampleCode">
-const Schema = Neo4Jay.Schema;
-const Model = Neo4Jay.model;
-const Relations = Neo4Jay.Relations;
-ingredientSchema.relationsship(
-		Relations.hasMany(&apos;Nutrient&apos;, {
-  		name: &apos;HAS_NUTRIENT&apos;,
-   		schema: new Schema({
-   			amount: {
-     			type: Number,
-       			required: true
-         	}
-         })
-     })
-)</code></pre>
-    </div>
-<div class="example-doc" data-ice="exampleDoc">
-      
-      <pre class="prettyprint source-code"><code data-ice="exampleCode">
-const Schema = Neo4Jay.Schema;
-const Model = Neo4Jay.model;
-const Relations = Neo4Jay.Relations;
-
-ingredientSchema.relationsship(
-		Relations.belongsToOne(&apos;IngredientType&apos;, {
- 		name: &apos;HAS_INGREDIENT&apos;
-   	})
-)</code></pre>
-    </div>
-</div>
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-validate">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    <span data-ice="name">validate</span><span data-ice="signature">(node: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/lib/schema.js.html#lineNumber90">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Function to use for validating a node</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">node</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The node that will be evaluated</p>
-</td>
+      <td data-ice="description"></td>
     </tr>
 </tbody>
   </table>
@@ -555,9 +491,8 @@ ingredientSchema.relationsship(
     <h4>Return:</h4>
     <table>
       <tr>
-        <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
-        <td class="return-desc" data-ice="returnDescription"><p>node - The evaluated node with added or removed properties.</p>
-</td>
+        <td class="return-type" data-ice="returnType"><span>*</span></td>
+        
       </tr>
     </table>
     <div data-ice="returnProperties">
@@ -568,19 +503,73 @@ ingredientSchema.relationsship(
 
   
 
-  <div data-ice="throwWrap">
-    <h4>Throw:</h4>
-    <table>
-      <tbody>
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-http">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">http</span><span data-ice="signature">(options: <span>*</span>): <span>*</span></span>
+    <span class="right-info">
       
-      <tr class="throw" data-ice="throw">
-        <td><p data-ice="throwName"><span><a href="class/lib/errors.js~ValidationError.html">ValidationError</a></span></p></td>
-        <td data-ice="throwDesc"><p>error - Thrown if an node violates the constraints given by the schema.</p>
-</td>
-      </tr>
+      
+      <span data-ice="source"><span><a href="file/lib/cypher.js.html#lineNumber38">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">options</td>
+      <td data-ice="type"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
 </tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tr>
+        <td class="return-type" data-ice="returnType"><span>*</span></td>
+        
+      </tr>
     </table>
+    <div data-ice="returnProperties">
+</div>
   </div>
+
+  
+
+  
+
+  
 
   
 

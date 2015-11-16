@@ -1,14 +1,27 @@
 {
-  "coverage": "37.5%",
-  "expectCount": 24,
+  "coverage": "18.75%",
+  "expectCount": 48,
   "actualCount": 9,
   "files": {
+    "lib/cypher.js": {
+      "expectCount": 7,
+      "actualCount": 0,
+      "undocumentLines": [
+        6,
+        21,
+        7,
+        75,
+        22,
+        38,
+        20
+      ]
+    },
     "lib/model.js": {
       "expectCount": 2,
       "actualCount": 0,
       "undocumentLines": [
         5,
-        79
+        83
       ]
     },
     "lib/node.js": {
@@ -22,7 +35,7 @@
         13,
         17,
         18,
-        73
+        62
       ]
     },
     "lib/errors.js": {
@@ -33,19 +46,48 @@
         16
       ]
     },
-    "lib/relations/index.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        3
-      ]
-    },
     "lib/schema.js": {
       "expectCount": 6,
       "actualCount": 4,
       "undocumentLines": [
         37,
         38
+      ]
+    },
+    "lib/relations/belongsToOne.js": {
+      "expectCount": 8,
+      "actualCount": 0,
+      "undocumentLines": [
+        6,
+        3,
+        4,
+        10,
+        8,
+        11,
+        9,
+        7
+      ]
+    },
+    "lib/relations/index.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        8,
+        4
+      ]
+    },
+    "lib/relations/hasMany.js": {
+      "expectCount": 8,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        3,
+        10,
+        8,
+        6,
+        11,
+        9,
+        7
       ]
     }
   }

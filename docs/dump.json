@@ -4,6 +4,202 @@
     "kind": "file",
     "static": true,
     "variation": null,
+    "name": "lib/cypher.js",
+    "memberof": null,
+    "longname": "lib/cypher.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import _ from 'lodash';\nimport Bluebird from 'bluebird';\nimport Request from 'request-promise';\nimport URL from 'url';\n\nexport default class Cypher {\n    constructor(options){\n        var uri, _ref;\n\n        if (options == null) {\n            options = {};\n        }\n\n        if (_.isString(options)) {\n            options = {\n                url: options\n            };\n        }\n\n        this.url = options.url;\n        this.auth = options.auth;\n        this.headers = options.headers || 'Neo4Jay';\n\n        if (!this.url) {\n            throw new TypeError('URL to Neo4j required');\n        }\n\n        uri = URL.parse(this.url);\n        if (uri.auth && (this.auth != null)) {\n            delete uri.auth;\n            this.url = URL.format(uri);\n        }\n\n        this.auth = this._normalizeAuth((_ref = this.auth) != null ? _ref : uri.auth);\n\n    }\n\n    http(options){\n\n        if (options == null) {\n            options = {};\n        }\n        if (_.isString(options)) {\n            options = {\n                path: options\n            };\n        }\n\n        var method = options.method;\n        var path = options.path;\n        var headers = options.headers;\n        var body = options.body;\n        var raw = options.raw;\n\n        if (!path) {\n            throw new TypeError('Path required');\n        }\n        method || (method = 'GET');\n        headers || (headers = {});\n        headers = this.headers + 'X-Stream: true';\n\n        return Request({\n            method: method,\n            url: URL.resolve(this.url, path),\n            proxy: this.proxy,\n            auth: this.auth,\n            headers: headers,\n            agent: this.agent,\n            json: body != null ? body : true,\n            encoding: 'utf8',\n            gzip: true\n        })\n    }\n\n    cypher(options){\n        var queries, format, headers, opts;\n        if (options == null) {\n            options = {};\n        }\n        if (_.isString(options)) {\n            options = {\n                query: options\n            };\n        }\n\n        if (!options.query) {\n          throw new TypeError('Query required');\n        }\n\n        const method = 'POST';\n        const path = '/db/data/transaction';\n\n        if (options.query) {\n            queries = [{\n                query: options.query,\n                params: options.params,\n                lean: options.lean\n            }];\n        }\n        var single = true;\n        var formats = [];\n        var body = {\n          statements: (function() {\n              var _i, _len, _ref, _results;\n              _results = [];\n              for (_i = 0, _len = queries.length; _i < _len; _i++) {\n                  var query = queries[_i];\n                    if (_.isString(query)) {\n                        query = {\n                            query: query\n                        };\n                    }\n                const _ref = query;\n                query = _ref.query;\n                const params = _ref.params;\n                const lean = _ref.lean;\n                formats.push(format = lean ? 'row' : 'row');\n                _results.push({\n                    statement: query,\n                    parameters: params || {},\n                    resultDataContents: [format]\n                });\n            }\n            return _results;\n          })()\n        };\n        return this.http({\n          method: method,\n          path: path,\n          headers: headers,\n          body: body,\n          raw: true\n        })\n        .then(response => {\n\n            var _results = [];\n            _.forEach(response.results, function(result){\n                const columns = result.columns\n\n                _.forEach(result.data, function(data, index){\n                    data = data.row;\n                    var inserted = false;\n                    var node;\n\n                    _.each(_results, function(node, index) {\n                       if(_.isEqual(node.id, data[0].id)){\n                           inserted = true;\n                           for (var i = 1; i < data.length-1; i++) {\n                               if(!_results[index][columns[i]]){\n                                   _results[index][columns[i]] = [];\n                               }\n                               _results[index][columns[i]].push({\n                                   ...data[i],\n                                   ...data[i+1]\n                               });\n                           }\n                       }\n                    })\n\n                    if(!inserted){\n                        node = data[0]\n                        for (var i = 1; i < data.length-1; i++) {\n                            if(!data[i+1]){\n                                break;\n                            }\n                           node[columns[i]] = [];\n                           node[columns[i]].push({\n                               ...data[i],\n                               ...data[i+1]\n                           });\n                        }\n                        _results.push(node)\n                    }\n\n                })\n            })\n            return _results;\n        })\n\n    }\n\n    _normalizeAuth = function(auth) {\n        var password, passwordParts, username, _ref;\n        if (!auth) {\n            return null;\n        }\n        if (typeof auth === 'string') {\n            _ref = auth.split(':'), username = _ref[0], passwordParts = 2 <= _ref.length ? __slice.call(_ref, 1) : [];\n            password = passwordParts.join(':');\n            auth = {\n                username: username,\n                password: password\n            };\n        }\n        if ((Object.keys(auth)).length === 0) {\n            return null;\n        }\n        return auth;\n    };\n\n}\n"
+  },
+  {
+    "__docId__": 1,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "Cypher",
+    "memberof": "lib/cypher.js",
+    "longname": "lib/cypher.js~Cypher",
+    "access": null,
+    "export": true,
+    "importPath": "Neo4Jay/lib/cypher.js",
+    "importStyle": "Cypher",
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 2,
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "lib/cypher.js~Cypher",
+    "longname": "lib/cypher.js~Cypher#constructor",
+    "access": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "params": [
+      {
+        "name": "options",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 3,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "url",
+    "memberof": "lib/cypher.js~Cypher",
+    "longname": "lib/cypher.js~Cypher#url",
+    "access": null,
+    "description": null,
+    "lineNumber": 20,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 4,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "auth",
+    "memberof": "lib/cypher.js~Cypher",
+    "longname": "lib/cypher.js~Cypher#auth",
+    "access": null,
+    "description": null,
+    "lineNumber": 21,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 5,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "headers",
+    "memberof": "lib/cypher.js~Cypher",
+    "longname": "lib/cypher.js~Cypher#headers",
+    "access": null,
+    "description": null,
+    "lineNumber": 22,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 6,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "url",
+    "memberof": "lib/cypher.js~Cypher",
+    "longname": "lib/cypher.js~Cypher#url",
+    "access": null,
+    "description": null,
+    "lineNumber": 31,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 7,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "auth",
+    "memberof": "lib/cypher.js~Cypher",
+    "longname": "lib/cypher.js~Cypher#auth",
+    "access": null,
+    "description": null,
+    "lineNumber": 34,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 8,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "http",
+    "memberof": "lib/cypher.js~Cypher",
+    "longname": "lib/cypher.js~Cypher#http",
+    "access": null,
+    "description": null,
+    "lineNumber": 38,
+    "undocument": true,
+    "params": [
+      {
+        "name": "options",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 9,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "cypher",
+    "memberof": "lib/cypher.js~Cypher",
+    "longname": "lib/cypher.js~Cypher#cypher",
+    "access": null,
+    "description": null,
+    "lineNumber": 75,
+    "undocument": true,
+    "params": [
+      {
+        "name": "options",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 10,
+    "kind": "file",
+    "static": true,
+    "variation": null,
     "name": "lib/errors.js",
     "memberof": null,
     "longname": "lib/errors.js",
@@ -13,7 +209,7 @@
     "content": "/**\n * ValidationError extends Error\n * @module error\n * @example\n * throw new ValidationError(error);\n */\nexport class ValidationError extends Error {\n    name = 'ValidationError';\n    status = 400;\n    /**\n    * ValidationError constructor.\n    * @param {object} error - The error to be thrown.\n    */\n    constructor(error) {\n        super(error.message);\n        this.payload = {\n            ...error,\n            name: this.name\n        };\n    }\n}\n\n/**\n * NotFoundError extends Error\n * @module error\n * @example\n * throw new NotFoundError('User');\n */\nexport class NotFoundError extends Error {\n    name = 'NotFoundError'\n    message = 'Could not find the entity';\n    status = 404;\n\n    /**\n    * NotFoundError constructor.\n    * @param {string} entity - The name of the entity that could not be found.\n    */\n    constructor(entity) {\n        super( 'Could not find the requested '+entity );\n        this.message =  'Could not find the requested '+entity;\n    }\n}\n"
   },
   {
-    "__docId__": 1,
+    "__docId__": 11,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -41,7 +237,7 @@
     ]
   },
   {
-    "__docId__": 2,
+    "__docId__": 12,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -66,7 +262,7 @@
     "generator": false
   },
   {
-    "__docId__": 3,
+    "__docId__": 13,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -84,7 +280,7 @@
     }
   },
   {
-    "__docId__": 4,
+    "__docId__": 14,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -112,7 +308,7 @@
     ]
   },
   {
-    "__docId__": 5,
+    "__docId__": 15,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -137,7 +333,7 @@
     "generator": false
   },
   {
-    "__docId__": 6,
+    "__docId__": 16,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -155,7 +351,7 @@
     }
   },
   {
-    "__docId__": 7,
+    "__docId__": 17,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -165,31 +361,10 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import Model from './model';\nimport Node from './node';\nimport Schema from './Schema';\nimport Relations from './relations';\nimport Bluebird from 'bluebird';\nimport config from '../../config/'\nimport Neo4j from 'neo4j';\nBluebird.promisifyAll(Neo4j)\nconst db = new Neo4j.GraphDatabase(config.neo4j);\n\nclass Neo4Jay {\n    constructor(){\n\n        this.db = db;\n        this.models = {};\n        this.modelSchemas = {};\n        this.Schema = Schema;\n        this.Model = Model;\n        this.Node = Node;\n        this.Relations = Relations;\n\n    }\n\n\n    model(name, schema){\n        // generate new Model\n        function model(node, fields, skipId) {\n          return new Node(model, node, fields, skipId);\n        }\n\n        model = Model.compile(name, schema, db, this);\n        neo4jay.models[name] = model\n        return model;\n    }\n\n}\n\nvar neo4jay = module.exports = exports = new Neo4Jay;\n"
+    "content": "import Model from './model';\nimport Node from './node';\nimport Schema from './schema';\nimport * as Relations from './relations';\nimport Bluebird from 'bluebird';\nimport Cypher from './cypher';\n\nclass Neo4Jay {\n    constructor(){\n\n\n        this.models = {};\n        this.modelSchemas = {};\n        this.Schema = Schema;\n        this.Model = Model;\n        this.Node = Node;\n        this.Relations = Relations;\n        this.Cypher = new Cypher({\n            url: 'http://localhost:7474',\n            auth: {\n                username: 'neo4j',\n                password: 'password'\n            }\n        });\n\n    }\n\n\n\n\n    model(name, schema){\n\n        // generate new Model\n        function model(node, fields, skipId) {\n          return new Node(model, node, fields, skipId);\n        }\n\n        model = Model.compile(name, schema, neo4jay.Cypher, neo4jay);\n        neo4jay.models[name] = model\n        return model;\n    }\n\n}\n\nvar neo4jay = module.exports = exports = new Neo4Jay();\n"
   },
   {
-    "__docId__": 8,
-    "kind": "variable",
-    "static": true,
-    "variation": null,
-    "name": "db",
-    "memberof": "lib/index.js",
-    "longname": "lib/index.js~db",
-    "access": null,
-    "export": false,
-    "importPath": "Neo4Jay/lib/index.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 9,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 9,
+    "__docId__": 18,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -201,12 +376,12 @@
     "importPath": "Neo4Jay/lib/index.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 11,
+    "lineNumber": 8,
     "undocument": true,
     "interface": false
   },
   {
-    "__docId__": 10,
+    "__docId__": 19,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -215,19 +390,55 @@
     "longname": "lib/index.js~Neo4Jay#constructor",
     "access": null,
     "description": null,
-    "lineNumber": 12,
+    "lineNumber": 9,
     "undocument": true,
     "params": [],
     "generator": false
   },
   {
-    "__docId__": 11,
+    "__docId__": 20,
     "kind": "member",
     "static": false,
     "variation": null,
-    "name": "db",
+    "name": "models",
     "memberof": "lib/index.js~Neo4Jay",
-    "longname": "lib/index.js~Neo4Jay#db",
+    "longname": "lib/index.js~Neo4Jay#models",
+    "access": null,
+    "description": null,
+    "lineNumber": 12,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 21,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "modelSchemas",
+    "memberof": "lib/index.js~Neo4Jay",
+    "longname": "lib/index.js~Neo4Jay#modelSchemas",
+    "access": null,
+    "description": null,
+    "lineNumber": 13,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 22,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "Schema",
+    "memberof": "lib/index.js~Neo4Jay",
+    "longname": "lib/index.js~Neo4Jay#Schema",
     "access": null,
     "description": null,
     "lineNumber": 14,
@@ -239,13 +450,13 @@
     }
   },
   {
-    "__docId__": 12,
+    "__docId__": 23,
     "kind": "member",
     "static": false,
     "variation": null,
-    "name": "models",
+    "name": "Model",
     "memberof": "lib/index.js~Neo4Jay",
-    "longname": "lib/index.js~Neo4Jay#models",
+    "longname": "lib/index.js~Neo4Jay#Model",
     "access": null,
     "description": null,
     "lineNumber": 15,
@@ -257,13 +468,13 @@
     }
   },
   {
-    "__docId__": 13,
+    "__docId__": 24,
     "kind": "member",
     "static": false,
     "variation": null,
-    "name": "modelSchemas",
+    "name": "Node",
     "memberof": "lib/index.js~Neo4Jay",
-    "longname": "lib/index.js~Neo4Jay#modelSchemas",
+    "longname": "lib/index.js~Neo4Jay#Node",
     "access": null,
     "description": null,
     "lineNumber": 16,
@@ -275,13 +486,13 @@
     }
   },
   {
-    "__docId__": 14,
+    "__docId__": 25,
     "kind": "member",
     "static": false,
     "variation": null,
-    "name": "Schema",
+    "name": "Relations",
     "memberof": "lib/index.js~Neo4Jay",
-    "longname": "lib/index.js~Neo4Jay#Schema",
+    "longname": "lib/index.js~Neo4Jay#Relations",
     "access": null,
     "description": null,
     "lineNumber": 17,
@@ -293,13 +504,13 @@
     }
   },
   {
-    "__docId__": 15,
+    "__docId__": 26,
     "kind": "member",
     "static": false,
     "variation": null,
-    "name": "Model",
+    "name": "Cypher",
     "memberof": "lib/index.js~Neo4Jay",
-    "longname": "lib/index.js~Neo4Jay#Model",
+    "longname": "lib/index.js~Neo4Jay#Cypher",
     "access": null,
     "description": null,
     "lineNumber": 18,
@@ -311,43 +522,7 @@
     }
   },
   {
-    "__docId__": 16,
-    "kind": "member",
-    "static": false,
-    "variation": null,
-    "name": "Node",
-    "memberof": "lib/index.js~Neo4Jay",
-    "longname": "lib/index.js~Neo4Jay#Node",
-    "access": null,
-    "description": null,
-    "lineNumber": 19,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 17,
-    "kind": "member",
-    "static": false,
-    "variation": null,
-    "name": "Relations",
-    "memberof": "lib/index.js~Neo4Jay",
-    "longname": "lib/index.js~Neo4Jay#Relations",
-    "access": null,
-    "description": null,
-    "lineNumber": 20,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 18,
+    "__docId__": 27,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -356,7 +531,7 @@
     "longname": "lib/index.js~Neo4Jay#model",
     "access": null,
     "description": null,
-    "lineNumber": 25,
+    "lineNumber": 31,
     "undocument": true,
     "params": [
       {
@@ -380,7 +555,7 @@
     "generator": false
   },
   {
-    "__docId__": 19,
+    "__docId__": 28,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -392,7 +567,7 @@
     "importPath": "Neo4Jay/lib/index.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 38,
+    "lineNumber": 45,
     "undocument": true,
     "type": {
       "types": [
@@ -401,7 +576,7 @@
     }
   },
   {
-    "__docId__": 20,
+    "__docId__": 29,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -411,10 +586,10 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import _ from 'lodash';\nimport Node from './node';\nimport { NotFoundError, ValidationError } from './errors';\n\nexport default class Model {\n\n\n    static findById = function(id, conditions, properties) {\n\n        const Model = this;\n\n        var query = [\n            'MATCH (node:'+Model.modelName+')',\n            'WHERE node.id = \"'+id+'\"',\n            'RETURN node',\n        ].join('\\n')\n\n        return this.db.cypherAsync({ query: query })\n            .then(response => {\n                if(!response.length) return null;\n                return new Node(Model, response[0]);\n            })\n\n\n    };\n\n    static updateById = function(id, node, conditions, properties) {\n\n        const Model = this;\n        const safeProps = this.schema.validate(node);\n\n        var query = [\n            'MATCH (node:'+Model.modelName+')',\n            'WHERE node.id = \"'+id+'\"',\n            'SET node += {props}',\n            'RETURN node',\n        ].join('\\n')\n\n        var params = {\n            props: safeProps\n        };\n\n        return this.db.cypherAsync({ query: query, params: params })\n            .then(response => {\n                if(!response.length) return null;\n                return new Node(Model, response[0]);\n            })\n\n\n    };\n\n    static find = function(conditions, properties) {\n\n        const Model = this;\n\n        var query = [\n            'MATCH (node:'+Model.modelName+')',\n            'RETURN node',\n        ].join('\\n')\n\n        return this.db.cypherAsync({ query: query })\n            .then(response => {\n                return response.map(function (node) {\n                    return new Node(Model, node);\n                });\n            })\n\n\n    };\n\n    static create = function(node) {\n\n        var newNode = new Node(this, node);\n        return newNode.save();\n\n    };\n\n\n    static compile(name, schema, db, base) {\n\n        // generate new Node\n        function model(node, fields, skipId) {\n          return new Node(model, node, fields, skipId);\n        }\n        model.modelName = name;\n        model.db = db;\n        model.base = base;\n        model.schema = schema;\n\n\n        // Inherit the functions of Model\n        for ( var i in Model){\n            if (typeof Model[i] === 'function') {\n              model[i] = Model[i];\n            }\n        }\n\n        return model;\n\n    }\n}\n"
+    "content": "import _ from 'lodash';\nimport Node from './node';\nimport { NotFoundError, ValidationError } from './errors';\n\nexport default class Model {\n\n\n    static findById = function(id, conditions, properties) {\n\n        const Model = this;\n\n        var query = [\n            'MATCH (node:'+Model.modelName+')',\n            'WHERE node.id = \"'+id+'\"',\n            'RETURN node',\n        ].join('\\n')\n\n        return this.db.cypher({ query: query })\n            .then(response => {\n                if(!response.length) return null;\n                return new Node(Model, response[0]);\n            })\n\n\n    };\n\n    static updateById = function(id, node, conditions, properties) {\n\n        const Model = this;\n        const safeProps = this.schema.validate(node);\n\n        var query = [\n            'MATCH (node:'+Model.modelName+')',\n            '-[:HAS_NUTRIENT]->(n:Nutrient)',\n            'WHERE node.id = \"'+id+'\"',\n            'SET node += {props}',\n            'RETURN node,n',\n        ].join('\\n')\n\n        var params = {\n            props: safeProps\n        };\n\n        return this.db.cypher({ query: query, params: params })\n            .then(response => {\n                if(!response.length) return null;\n                return new Node(Model, response[0]);\n            })\n\n\n    };\n\n    static find = function(conditions, properties) {\n\n        const Model = this;\n\n        var query = [\n            'MATCH ('+Model.modelName+':'+Model.modelName+')',\n            'OPTIONAL MATCH ('+Model.modelName+')-[HAS_NUTRIENT:HAS_NUTRIENT]->(Nutrient:Nutrient)', // ADDED BY ASKING FOR NUTRIENTs\n            'RETURN '+Model.modelName+'',\n            ',HAS_NUTRIENT,Nutrient', // ADDED BY ASKING FOR NUTRIENTS\n        ].join('\\n')\n\n        return this.db.cypher({ query: query })\n            .then(response => {\n                return response;\n                return response.map(function (node) {\n                    return new Node(Model, node);\n                });\n            })\n\n\n    };\n\n    static create = function(node) {\n\n        var newNode = new Node(this, node);\n        return newNode.save();\n\n    };\n\n\n    static compile(name, schema, db, base) {\n\n        // generate new Node\n        function model(node, fields, skipId) {\n          return new Node(model, node, fields, skipId);\n        }\n\n        model.modelName = name;\n        model.db = db;\n        model.base = base;\n        model.schema = schema;\n\n\n        // Inherit the functions of Model\n        for ( var i in Model){\n            if (typeof Model[i] === 'function') {\n              model[i] = Model[i];\n            }\n        }\n\n        return model;\n\n    }\n}\n"
   },
   {
-    "__docId__": 21,
+    "__docId__": 30,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -431,7 +606,7 @@
     "interface": false
   },
   {
-    "__docId__": 22,
+    "__docId__": 31,
     "kind": "method",
     "static": true,
     "variation": null,
@@ -440,7 +615,7 @@
     "longname": "lib/model.js~Model.compile",
     "access": null,
     "description": null,
-    "lineNumber": 79,
+    "lineNumber": 83,
     "undocument": true,
     "params": [
       {
@@ -476,7 +651,7 @@
     "generator": false
   },
   {
-    "__docId__": 23,
+    "__docId__": 32,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -486,10 +661,10 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import _ from 'lodash';\n/**\n * Node description\n * @param {object} obj    the actual node object\n * @param {object} fields optional object if any fields vas specified during the query\n * @param {boolean} skipId optinal boolean should we autogenerate id\n */\n\n export default class Node {\n     constructor(model, node, fields, skipId){\n\n\n         this.modelName = model.modelName;\n         this.model = model;\n         this.db = model.db;\n         this.base = model.base;\n         this.schema = model.schema;\n         this.selected = fields;\n\n\n         // Inherit the functions of the Model\n         for ( var i in model){\n             if (typeof model[i] === 'function') {\n               this[i] = model[i];\n             }\n         }\n\n         this._node = this.buildNode(node);\n\n     }\n\n     buildNode = function(node){\n\n        if(node.node){\n            var _node = {\n                ...node.node.properties,\n                type: node.node.labels[0]\n            }\n        }else{\n            var _node = {\n                ...node,\n                type: this.modelName\n            }\n        }\n\n        return _node;\n    }\n\n    save = function(){\n\n        const safeProps = this.schema.validate(this._node);\n\n        const Model = this.model;\n\n        var query = [\n            'CREATE (node:'+this.modelName+' {props})',\n            'RETURN node',\n        ].join('\\n');\n\n        var params = {\n            props: safeProps\n        };\n\n        return this.db.cypherAsync({ query: query, params: params })\n            .then(response => {\n                return new Node(Model, response[0]);\n            })\n\n    }\n\n\n\n    toJSON() {\n        return this._node;\n    }\n\n}\n"
+    "content": "import _ from 'lodash';\n/**\n * Node description\n * @param {object} obj    the actual node object\n * @param {object} fields optional object if any fields vas specified during the query\n * @param {boolean} skipId optinal boolean should we autogenerate id\n */\n\n export default class Node {\n     constructor(model, node, fields, skipId){\n\n\n         this.modelName = model.modelName;\n         this.model = model;\n         this.db = model.db;\n         this.base = model.base;\n         this.schema = model.schema;\n         this.selected = fields;\n\n\n         // Inherit the functions of the Model\n         for ( var i in model){\n             if (typeof model[i] === 'function') {\n               this[i] = model[i];\n             }\n         }\n\n         this._node = this.buildNode(node);\n\n     }\n\n     buildNode = function(node){\n\n\n        return node;\n    }\n\n    save = function(){\n\n        const safeProps = this.schema.validate(this._node);\n\n        const Model = this.model;\n\n        var query = [\n            'CREATE (node:'+this.modelName+' {props})',\n            'RETURN node',\n        ].join('\\n');\n\n        var params = {\n            props: safeProps\n        };\n\n        return this.db.cypher({ query: query, params: params })\n            .then(response => {\n                return new Node(Model, response[0]);\n            })\n\n    }\n\n\n\n    toJSON() {\n        return this._node;\n    }\n\n}\n"
   },
   {
-    "__docId__": 24,
+    "__docId__": 33,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -537,7 +712,7 @@
     "interface": false
   },
   {
-    "__docId__": 25,
+    "__docId__": 34,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -577,7 +752,7 @@
     "generator": false
   },
   {
-    "__docId__": 26,
+    "__docId__": 35,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -595,7 +770,7 @@
     }
   },
   {
-    "__docId__": 27,
+    "__docId__": 36,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -613,7 +788,7 @@
     }
   },
   {
-    "__docId__": 28,
+    "__docId__": 37,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -631,7 +806,7 @@
     }
   },
   {
-    "__docId__": 29,
+    "__docId__": 38,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -649,7 +824,7 @@
     }
   },
   {
-    "__docId__": 30,
+    "__docId__": 39,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -667,7 +842,7 @@
     }
   },
   {
-    "__docId__": 31,
+    "__docId__": 40,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -685,7 +860,7 @@
     }
   },
   {
-    "__docId__": 32,
+    "__docId__": 41,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -703,7 +878,7 @@
     }
   },
   {
-    "__docId__": 33,
+    "__docId__": 42,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -712,7 +887,7 @@
     "longname": "lib/node.js~Node#toJSON",
     "access": null,
     "description": null,
-    "lineNumber": 73,
+    "lineNumber": 62,
     "undocument": true,
     "params": [],
     "return": {
@@ -723,7 +898,339 @@
     "generator": false
   },
   {
-    "__docId__": 34,
+    "__docId__": 43,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "lib/relations/belongsToOne.js",
+    "memberof": null,
+    "longname": "lib/relations/belongsToOne.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import _ from 'lodash';\n\nexport default class belongsToOne {\n    constructor(targetModel, options){\n\n        this.associationType = 'BelongsToOne';\n        this.target = targetModel;\n        this.options = options;\n        this.singleRelationsship = true;\n        this.name = options.name;\n        this.schema = options.schema || null;\n\n    }\n\n}\n"
+  },
+  {
+    "__docId__": 44,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "belongsToOne",
+    "memberof": "lib/relations/belongsToOne.js",
+    "longname": "lib/relations/belongsToOne.js~belongsToOne",
+    "access": null,
+    "export": true,
+    "importPath": "Neo4Jay/lib/relations/belongsToOne.js",
+    "importStyle": "belongsToOne",
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 45,
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "lib/relations/belongsToOne.js~belongsToOne",
+    "longname": "lib/relations/belongsToOne.js~belongsToOne#constructor",
+    "access": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "params": [
+      {
+        "name": "targetModel",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "options",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 46,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "associationType",
+    "memberof": "lib/relations/belongsToOne.js~belongsToOne",
+    "longname": "lib/relations/belongsToOne.js~belongsToOne#associationType",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "string"
+      ]
+    }
+  },
+  {
+    "__docId__": 47,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "target",
+    "memberof": "lib/relations/belongsToOne.js~belongsToOne",
+    "longname": "lib/relations/belongsToOne.js~belongsToOne#target",
+    "access": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 48,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "options",
+    "memberof": "lib/relations/belongsToOne.js~belongsToOne",
+    "longname": "lib/relations/belongsToOne.js~belongsToOne#options",
+    "access": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 49,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "singleRelationsship",
+    "memberof": "lib/relations/belongsToOne.js~belongsToOne",
+    "longname": "lib/relations/belongsToOne.js~belongsToOne#singleRelationsship",
+    "access": null,
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "type": {
+      "types": [
+        "boolean"
+      ]
+    }
+  },
+  {
+    "__docId__": 50,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "name",
+    "memberof": "lib/relations/belongsToOne.js~belongsToOne",
+    "longname": "lib/relations/belongsToOne.js~belongsToOne#name",
+    "access": null,
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 51,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "schema",
+    "memberof": "lib/relations/belongsToOne.js~belongsToOne",
+    "longname": "lib/relations/belongsToOne.js~belongsToOne#schema",
+    "access": null,
+    "description": null,
+    "lineNumber": 11,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 52,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "lib/relations/hasMany.js",
+    "memberof": null,
+    "longname": "lib/relations/hasMany.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import _ from 'lodash';\n\nexport default class hasMany {\n    constructor(targetModel, options){\n\n        this.relationshipType = 'HasMany';\n        this.target = targetModel;\n        this.options = options;\n        this.singleRelationsship = false;\n        this.name = options.name;\n        this.schema = options.schema;\n\n    }\n\n\n\n\n\n\n}\n"
+  },
+  {
+    "__docId__": 53,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "hasMany",
+    "memberof": "lib/relations/hasMany.js",
+    "longname": "lib/relations/hasMany.js~hasMany",
+    "access": null,
+    "export": true,
+    "importPath": "Neo4Jay/lib/relations/hasMany.js",
+    "importStyle": "hasMany",
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 54,
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "lib/relations/hasMany.js~hasMany",
+    "longname": "lib/relations/hasMany.js~hasMany#constructor",
+    "access": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "params": [
+      {
+        "name": "targetModel",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "options",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 55,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "relationshipType",
+    "memberof": "lib/relations/hasMany.js~hasMany",
+    "longname": "lib/relations/hasMany.js~hasMany#relationshipType",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "string"
+      ]
+    }
+  },
+  {
+    "__docId__": 56,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "target",
+    "memberof": "lib/relations/hasMany.js~hasMany",
+    "longname": "lib/relations/hasMany.js~hasMany#target",
+    "access": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 57,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "options",
+    "memberof": "lib/relations/hasMany.js~hasMany",
+    "longname": "lib/relations/hasMany.js~hasMany#options",
+    "access": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 58,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "singleRelationsship",
+    "memberof": "lib/relations/hasMany.js~hasMany",
+    "longname": "lib/relations/hasMany.js~hasMany#singleRelationsship",
+    "access": null,
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "type": {
+      "types": [
+        "boolean"
+      ]
+    }
+  },
+  {
+    "__docId__": 59,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "name",
+    "memberof": "lib/relations/hasMany.js~hasMany",
+    "longname": "lib/relations/hasMany.js~hasMany#name",
+    "access": null,
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 60,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "schema",
+    "memberof": "lib/relations/hasMany.js~hasMany",
+    "longname": "lib/relations/hasMany.js~hasMany#schema",
+    "access": null,
+    "description": null,
+    "lineNumber": 11,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 61,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -733,31 +1240,82 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "\n\nvar Relation = {};\n\nexport default Relation;\n"
+    "content": "import HasMany from './hasMany';\nimport BelongsToOne from './belongsToOne';\n\nexport function hasMany(targetModel, options){\n    return new HasMany(targetModel, options)\n}\n\nexport function belongsToOne(targetModel, options){\n    return new BelongsToOne(targetModel, options)\n}\n"
   },
   {
-    "__docId__": 35,
-    "kind": "variable",
+    "__docId__": 62,
+    "kind": "function",
     "static": true,
     "variation": null,
-    "name": "Relation",
+    "name": "hasMany",
     "memberof": "lib/relations/index.js",
-    "longname": "lib/relations/index.js~Relation",
+    "longname": "lib/relations/index.js~hasMany",
     "access": null,
     "export": true,
     "importPath": "Neo4Jay/lib/relations/index.js",
-    "importStyle": "Relation",
+    "importStyle": "{hasMany}",
     "description": null,
-    "lineNumber": 3,
+    "lineNumber": 4,
     "undocument": true,
-    "type": {
+    "params": [
+      {
+        "name": "targetModel",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "options",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
       "types": [
         "*"
       ]
-    }
+    },
+    "generator": false
   },
   {
-    "__docId__": 36,
+    "__docId__": 63,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "belongsToOne",
+    "memberof": "lib/relations/index.js",
+    "longname": "lib/relations/index.js~belongsToOne",
+    "access": null,
+    "export": true,
+    "importPath": "Neo4Jay/lib/relations/index.js",
+    "importStyle": "{belongsToOne}",
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "params": [
+      {
+        "name": "targetModel",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "options",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 64,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -767,10 +1325,10 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import _ from 'lodash';\nimport shortid from 'shortid';\n/**\n* define the structure of your data,\n* schema specific methods,\n* indexes / constrains,\n* hooks,\n* validation,\n* relationships,\n*\n*/\nexport default class Schema {\n    /**\n     *\n     * Used to initialize a new schema.\n     *\n     * @example\n     * import Neo4Jay from 'neo4jay';\n     *\n     * const Schema = Neo4Jay.Schema;\n     *\n     * const ingredientSchema = new Schema({\n     * \tname: {\n     * \t\trequired: true,\n     * \t\ttype: String\n     * \t},\n     * \tdescription: {\n     * \t\ttype: String\n     * \t}\n     * })\n     *\n     */\n    constructor(object, options){\n\n        this._options = this._setOptions(options);\n        this._paths = this._setPaths(object);\n        this.methods = {};\n        this.relationships = {};\n\n    }\n\n    /**\n     * @access private\n     */\n    _setPaths(object){\n\n        var paths = {};\n\n        _.mapKeys(object, function(value, key) {\n            paths[key] = value;\n        });\n\n        if(this.options.id){\n            paths.id = {\n                unique: true,\n                index: true,\n                required: true,\n                constraint: true,\n                default: shortid.generate()\n            }\n        }\n\n        return paths;\n\n    }\n\n    /**\n     * @access private\n     */\n    _setOptions(options){\n\n        options = {\n            strict: true,\n            autoIndex: null,\n            validateBeforeSave: true,\n            id: true\n        };\n\n      return options;\n\n    }\n\n    /**\n     * Function to use for validating a node\n     * @param  {object} node - The node that will be evaluated\n     * @return {object} node - The evaluated node with added or removed properties.\n     * @throws {ValidationError} error - Thrown if an node violates the constraints given by the schema.\n     *\n     */\n    validate(node){\n\n        var _node = {};\n\n        _.mapKeys(this.paths, function(value, key) {\n\n            if(node[key]){\n                _node[key] = node[key]\n            } else {\n                if(value.required && !value.default) throw new error('missing property: '+key)\n                else _node[key] = value.default;\n            }\n\n        });\n\n        return _node;\n\n    }\n\n    /**\n     *\n     * Adds an instance relationship to documents constructed from Models compiled from this schema.\n     *\n     * @access public\n     * @param {string|object} name - name for the specified relationsship, or an object of muliple relationsships.\n     * @param {function} fn - relationsship to be added to the schema.\n     * @example\n     * ingredientSchema.relation({\n     * \t'HAS_NUTRIENTS': Relations.hasMany('Nutrients'),\n     * \t'HAS_INGREDIENT': Relations.belongsTo('IngredientType'),\n     * \t'CONTAINS_INGREDIENT': Relations.belongsToMany('Recipies'),\n     * })\n     *\n     */\n    relation(name, fn){\n        if ('string' != typeof name){\n            for (var i in name){\n                this.relationships[i] = name[i];\n            }\n        } else {\n            this.relationships[name] = fn;\n        }\n    }\n\n\n\n\n\n}\n"
+    "content": "import _ from 'lodash';\nimport shortid from 'shortid';\n/**\n* define the structure of your data,\n* schema specific methods,\n* indexes / constrains,\n* hooks,\n* validation,\n* relationships,\n*\n*/\nexport default class Schema {\n    /**\n     *\n     * Used to initialize a new schema.\n     *\n     * @example\n     * import Neo4Jay from 'neo4jay';\n     *\n     * const Schema = Neo4Jay.Schema;\n     *\n     * const ingredientSchema = new Schema({\n     * \tname: {\n     * \t\trequired: true,\n     * \t\ttype: String\n     * \t},\n     * \tdescription: {\n     * \t\ttype: String\n     * \t}\n     * })\n     *\n     */\n    constructor(object, options){\n\n        this._options = this._setOptions(options);\n        this._paths = this._setPaths(object);\n        this.methods = {};\n        this.relationships = {};\n\n    }\n\n    /**\n     * @access private\n     */\n    _setPaths(object){\n\n        var paths = {};\n\n        _.mapKeys(object, function(value, key) {\n            paths[key] = value;\n        });\n\n        if(this._options.id){\n            paths.id = {\n                unique: true,\n                index: true,\n                required: true,\n                constraint: true,\n                default: shortid.generate()\n            }\n        }\n\n        return paths;\n\n    }\n\n    /**\n     * @access private\n     */\n    _setOptions(options){\n\n        options = {\n            strict: true,\n            autoIndex: null,\n            validateBeforeSave: true,\n            id: true\n        };\n\n      return options;\n\n    }\n\n    /**\n     * Function to use for validating a node\n     * @param  {object} node - The node that will be evaluated\n     * @return {object} node - The evaluated node with added or removed properties.\n     * @throws {ValidationError} error - Thrown if an node violates the constraints given by the schema.\n     *\n     */\n    validate(node){\n\n        var _node = {};\n\n        _.mapKeys(this.paths, function(value, key) {\n\n            if(node[key]){\n                _node[key] = node[key]\n            } else {\n                if(value.required && !value.default) throw new error('missing property: '+key)\n                else _node[key] = value.default;\n            }\n\n        });\n\n        return _node;\n\n    }\n\n    /**\n     * Adds an instance relationship to documents constructed from Models compiled from this schema.\n     * @access public\n     * @param {function} rel - The relation type and options for the specific relationship, can only accept one relationship at the time.\n     * @example\n     *\n     * const Schema = Neo4Jay.Schema;\n     * const Model = Neo4Jay.model;\n     * const Relations = Neo4Jay.Relations;\n\n     * ingredientSchema.relationsship(\n     * \t\tRelations.hasMany('Nutrient', {\n     *   \t\tname: 'HAS_NUTRIENT',\n     *    \t\tschema: new Schema({\n     *    \t\t\tamount: {\n     *      \t\t\ttype: Number,\n     *        \t\t\trequired: true\n     *          \t}\n     *          })\n     *      })\n     * )\n     *\n     * @example\n     *\n     * const Schema = Neo4Jay.Schema;\n     * const Model = Neo4Jay.model;\n     * const Relations = Neo4Jay.Relations;\n     *\n     * ingredientSchema.relationsship(\n     * \t\tRelations.belongsToOne('IngredientType', {\n     *  \t\tname: 'HAS_INGREDIENT'\n     *    \t})\n     * )\n     *\n     */\n    relationsship(rel){\n        this.relationships[rel.name] = rel;\n        console.log(this);\n    }\n\n\n\n\n\n}\n"
   },
   {
-    "__docId__": 37,
+    "__docId__": 65,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -786,7 +1344,7 @@
     "interface": false
   },
   {
-    "__docId__": 38,
+    "__docId__": 66,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -816,7 +1374,7 @@
     "generator": false
   },
   {
-    "__docId__": 39,
+    "__docId__": 67,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -834,7 +1392,7 @@
     }
   },
   {
-    "__docId__": 40,
+    "__docId__": 68,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -852,7 +1410,7 @@
     }
   },
   {
-    "__docId__": 41,
+    "__docId__": 69,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -870,7 +1428,7 @@
     }
   },
   {
-    "__docId__": 42,
+    "__docId__": 70,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -888,7 +1446,7 @@
     }
   },
   {
-    "__docId__": 43,
+    "__docId__": 71,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -914,7 +1472,7 @@
     "generator": false
   },
   {
-    "__docId__": 44,
+    "__docId__": 72,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -940,7 +1498,7 @@
     "generator": false
   },
   {
-    "__docId__": 45,
+    "__docId__": 73,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -981,31 +1539,21 @@
     "generator": false
   },
   {
-    "__docId__": 46,
+    "__docId__": 74,
     "kind": "method",
     "static": false,
     "variation": null,
-    "name": "relation",
+    "name": "relationsship",
     "memberof": "lib/schema.js~Schema",
-    "longname": "lib/schema.js~Schema#relation",
+    "longname": "lib/schema.js~Schema#relationsship",
     "access": "public",
     "description": "Adds an instance relationship to documents constructed from Models compiled from this schema.",
     "examples": [
-      "ingredientSchema.relation({\n\t'HAS_NUTRIENTS': Relations.hasMany('Nutrients'),\n\t'HAS_INGREDIENT': Relations.belongsTo('IngredientType'),\n\t'CONTAINS_INGREDIENT': Relations.belongsToMany('Recipies'),\n})"
+      "\nconst Schema = Neo4Jay.Schema;\nconst Model = Neo4Jay.model;\nconst Relations = Neo4Jay.Relations;\ningredientSchema.relationsship(\n\t\tRelations.hasMany('Nutrient', {\n  \t\tname: 'HAS_NUTRIENT',\n   \t\tschema: new Schema({\n   \t\t\tamount: {\n     \t\t\ttype: Number,\n       \t\t\trequired: true\n         \t}\n         })\n     })\n)",
+      "\nconst Schema = Neo4Jay.Schema;\nconst Model = Neo4Jay.model;\nconst Relations = Neo4Jay.Relations;\n\ningredientSchema.relationsship(\n\t\tRelations.belongsToOne('IngredientType', {\n \t\tname: 'HAS_INGREDIENT'\n   \t})\n)"
     ],
-    "lineNumber": 124,
+    "lineNumber": 144,
     "params": [
-      {
-        "nullable": null,
-        "types": [
-          "string",
-          "object"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "name",
-        "description": "name for the specified relationsship, or an object of muliple relationsships."
-      },
       {
         "nullable": null,
         "types": [
@@ -1013,14 +1561,14 @@
         ],
         "spread": false,
         "optional": false,
-        "name": "fn",
-        "description": "relationsship to be added to the schema."
+        "name": "rel",
+        "description": "The relation type and options for the specific relationship, can only accept one relationship at the time."
       }
     ],
     "generator": false
   },
   {
-    "__docId__": 48,
+    "__docId__": 76,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1033,7 +1581,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 49,
+    "__docId__": 77,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1046,7 +1594,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 50,
+    "__docId__": 78,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1059,7 +1607,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 51,
+    "__docId__": 79,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1072,7 +1620,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 52,
+    "__docId__": 80,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1085,7 +1633,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 53,
+    "__docId__": 81,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1098,7 +1646,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 54,
+    "__docId__": 82,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1111,7 +1659,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 55,
+    "__docId__": 83,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1124,7 +1672,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 56,
+    "__docId__": 84,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1137,7 +1685,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 57,
+    "__docId__": 85,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1150,7 +1698,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 58,
+    "__docId__": 86,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1163,7 +1711,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 59,
+    "__docId__": 87,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1176,7 +1724,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 60,
+    "__docId__": 88,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1189,7 +1737,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 61,
+    "__docId__": 89,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1202,7 +1750,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 62,
+    "__docId__": 90,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1215,7 +1763,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 63,
+    "__docId__": 91,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1228,7 +1776,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 64,
+    "__docId__": 92,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1241,7 +1789,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 65,
+    "__docId__": 93,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1254,7 +1802,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 66,
+    "__docId__": 94,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1267,7 +1815,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 67,
+    "__docId__": 95,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1280,7 +1828,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 68,
+    "__docId__": 96,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1293,7 +1841,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 69,
+    "__docId__": 97,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1306,7 +1854,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 70,
+    "__docId__": 98,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1319,7 +1867,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 71,
+    "__docId__": 99,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1332,7 +1880,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 72,
+    "__docId__": 100,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1345,7 +1893,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 73,
+    "__docId__": 101,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1358,7 +1906,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 74,
+    "__docId__": 102,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1371,7 +1919,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 75,
+    "__docId__": 103,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1384,7 +1932,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 76,
+    "__docId__": 104,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1397,7 +1945,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 77,
+    "__docId__": 105,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1410,7 +1958,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 78,
+    "__docId__": 106,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1423,7 +1971,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 79,
+    "__docId__": 107,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1436,7 +1984,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 80,
+    "__docId__": 108,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1449,7 +1997,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 81,
+    "__docId__": 109,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1462,7 +2010,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 82,
+    "__docId__": 110,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1475,7 +2023,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 83,
+    "__docId__": 111,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1488,7 +2036,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 84,
+    "__docId__": 112,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1501,7 +2049,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 85,
+    "__docId__": 113,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1514,7 +2062,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 86,
+    "__docId__": 114,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1527,7 +2075,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 87,
+    "__docId__": 115,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1540,7 +2088,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 88,
+    "__docId__": 116,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1553,7 +2101,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 89,
+    "__docId__": 117,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1566,7 +2114,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 90,
+    "__docId__": 118,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1579,7 +2127,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 91,
+    "__docId__": 119,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1592,7 +2140,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 92,
+    "__docId__": 120,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1605,7 +2153,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 93,
+    "__docId__": 121,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1618,7 +2166,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 94,
+    "__docId__": 122,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1631,7 +2179,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 96,
+    "__docId__": 124,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1644,7 +2192,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 97,
+    "__docId__": 125,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1657,7 +2205,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 98,
+    "__docId__": 126,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1670,7 +2218,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 99,
+    "__docId__": 127,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1683,7 +2231,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 100,
+    "__docId__": 128,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1696,7 +2244,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 101,
+    "__docId__": 129,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1709,7 +2257,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 102,
+    "__docId__": 130,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1722,7 +2270,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 103,
+    "__docId__": 131,
     "kind": "external",
     "static": true,
     "variation": null,
