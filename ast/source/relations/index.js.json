@@ -1,202 +1,520 @@
 {
   "type": "Program",
   "start": 0,
-  "end": 47,
+  "end": 276,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 6,
+      "line": 11,
       "column": 0
     }
   },
   "sourceType": "module",
   "body": [
     {
-      "type": "Identifier",
-      "start": 2,
-      "end": 20,
+      "type": "ImportDeclaration",
+      "start": 0,
+      "end": 32,
       "loc": {
         "start": {
-          "line": 3,
+          "line": 1,
           "column": 0
         },
         "end": {
-          "line": 3,
-          "column": 18
+          "line": 1,
+          "column": 32
         }
       },
-      "declarations": [
+      "specifiers": [
         {
-          "type": "VariableDeclarator",
-          "start": 6,
-          "end": 19,
+          "type": "ImportDefaultSpecifier",
+          "start": 7,
+          "end": 14,
           "loc": {
             "start": {
-              "line": 3,
-              "column": 4
+              "line": 1,
+              "column": 7
             },
             "end": {
-              "line": 3,
-              "column": 17
+              "line": 1,
+              "column": 14
             }
           },
-          "id": {
+          "local": {
             "type": "Identifier",
-            "start": 6,
+            "start": 7,
             "end": 14,
             "loc": {
               "start": {
-                "line": 3,
-                "column": 4
+                "line": 1,
+                "column": 7
               },
               "end": {
-                "line": 3,
-                "column": 12
+                "line": 1,
+                "column": 14
               }
             },
-            "name": "Relation"
-          },
-          "init": {
-            "type": "ObjectExpression",
-            "start": 17,
-            "end": 19,
-            "loc": {
-              "start": {
-                "line": 3,
-                "column": 15
-              },
-              "end": {
-                "line": 3,
-                "column": 17
-              }
-            },
-            "properties": []
+            "name": "HasMany"
           }
         }
       ],
-      "kind": "var",
-      "name": "_",
-      "leadingComments": [],
-      "trailingComments": []
+      "importKind": "value",
+      "source": {
+        "type": "Literal",
+        "start": 20,
+        "end": 31,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 20
+          },
+          "end": {
+            "line": 1,
+            "column": 31
+          }
+        },
+        "value": "./hasMany",
+        "rawValue": "./hasMany",
+        "raw": "'./hasMany'"
+      }
     },
     {
-      "type": "Identifier",
-      "start": 22,
-      "end": 46,
+      "type": "ImportDeclaration",
+      "start": 33,
+      "end": 75,
       "loc": {
         "start": {
-          "line": 5,
+          "line": 2,
           "column": 0
         },
         "end": {
-          "line": 5,
-          "column": 24
+          "line": 2,
+          "column": 42
         }
       },
-      "declaration": {
-        "type": "Identifier",
-        "start": 37,
-        "end": 45,
-        "loc": {
-          "start": {
-            "line": 5,
-            "column": 15
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "start": 40,
+          "end": 52,
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 7
+            },
+            "end": {
+              "line": 2,
+              "column": 19
+            }
           },
-          "end": {
-            "line": 5,
-            "column": 23
-          }
-        },
-        "name": "Relation"
-      },
-      "name": "_",
-      "leadingComments": [],
-      "trailingComments": []
-    },
-    {
-      "type": "ExportDefaultDeclaration",
-      "start": 22,
-      "end": 46,
-      "loc": {
-        "start": {
-          "line": 5,
-          "column": 0
-        },
-        "end": {
-          "line": 5,
-          "column": 24
-        }
-      },
-      "declaration": {
-        "type": "VariableDeclaration",
-        "start": 2,
-        "end": 20,
-        "loc": {
-          "start": {
-            "line": 3,
-            "column": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 18
-          }
-        },
-        "declarations": [
-          {
-            "type": "VariableDeclarator",
-            "start": 6,
-            "end": 19,
+          "local": {
+            "type": "Identifier",
+            "start": 40,
+            "end": 52,
             "loc": {
               "start": {
-                "line": 3,
-                "column": 4
+                "line": 2,
+                "column": 7
               },
               "end": {
-                "line": 3,
-                "column": 17
+                "line": 2,
+                "column": 19
               }
             },
-            "id": {
-              "type": "Identifier",
-              "start": 6,
-              "end": 14,
+            "name": "BelongsToOne"
+          }
+        }
+      ],
+      "importKind": "value",
+      "source": {
+        "type": "Literal",
+        "start": 58,
+        "end": 74,
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 25
+          },
+          "end": {
+            "line": 2,
+            "column": 41
+          }
+        },
+        "value": "./belongsToOne",
+        "rawValue": "./belongsToOne",
+        "raw": "'./belongsToOne'"
+      }
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "start": 77,
+      "end": 170,
+      "loc": {
+        "start": {
+          "line": 4,
+          "column": 0
+        },
+        "end": {
+          "line": 6,
+          "column": 1
+        }
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "start": 84,
+        "end": 170,
+        "loc": {
+          "start": {
+            "line": 4,
+            "column": 7
+          },
+          "end": {
+            "line": 6,
+            "column": 1
+          }
+        },
+        "id": {
+          "type": "Identifier",
+          "start": 93,
+          "end": 100,
+          "loc": {
+            "start": {
+              "line": 4,
+              "column": 16
+            },
+            "end": {
+              "line": 4,
+              "column": 23
+            }
+          },
+          "name": "hasMany"
+        },
+        "generator": false,
+        "expression": false,
+        "async": false,
+        "params": [
+          {
+            "type": "Identifier",
+            "start": 101,
+            "end": 112,
+            "loc": {
+              "start": {
+                "line": 4,
+                "column": 24
+              },
+              "end": {
+                "line": 4,
+                "column": 35
+              }
+            },
+            "name": "targetModel"
+          },
+          {
+            "type": "Identifier",
+            "start": 114,
+            "end": 121,
+            "loc": {
+              "start": {
+                "line": 4,
+                "column": 37
+              },
+              "end": {
+                "line": 4,
+                "column": 44
+              }
+            },
+            "name": "options"
+          }
+        ],
+        "body": {
+          "type": "BlockStatement",
+          "start": 122,
+          "end": 170,
+          "loc": {
+            "start": {
+              "line": 4,
+              "column": 45
+            },
+            "end": {
+              "line": 6,
+              "column": 1
+            }
+          },
+          "body": [
+            {
+              "type": "ReturnStatement",
+              "start": 128,
+              "end": 168,
               "loc": {
                 "start": {
-                  "line": 3,
+                  "line": 5,
                   "column": 4
                 },
                 "end": {
-                  "line": 3,
-                  "column": 12
+                  "line": 5,
+                  "column": 44
                 }
               },
-              "name": "Relation"
-            },
-            "init": {
-              "type": "ObjectExpression",
-              "start": 17,
-              "end": 19,
-              "loc": {
-                "start": {
-                  "line": 3,
-                  "column": 15
+              "argument": {
+                "type": "NewExpression",
+                "start": 135,
+                "end": 168,
+                "loc": {
+                  "start": {
+                    "line": 5,
+                    "column": 11
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 44
+                  }
                 },
-                "end": {
-                  "line": 3,
-                  "column": 17
-                }
-              },
-              "properties": []
+                "callee": {
+                  "type": "Identifier",
+                  "start": 139,
+                  "end": 146,
+                  "loc": {
+                    "start": {
+                      "line": 5,
+                      "column": 15
+                    },
+                    "end": {
+                      "line": 5,
+                      "column": 22
+                    }
+                  },
+                  "name": "HasMany"
+                },
+                "arguments": [
+                  {
+                    "type": "Identifier",
+                    "start": 147,
+                    "end": 158,
+                    "loc": {
+                      "start": {
+                        "line": 5,
+                        "column": 23
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 34
+                      }
+                    },
+                    "name": "targetModel"
+                  },
+                  {
+                    "type": "Identifier",
+                    "start": 160,
+                    "end": 167,
+                    "loc": {
+                      "start": {
+                        "line": 5,
+                        "column": 36
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 43
+                      }
+                    },
+                    "name": "options"
+                  }
+                ]
+              }
             }
-          }
-        ],
-        "kind": "var",
+          ]
+        },
         "leadingComments": [],
         "trailingComments": []
-      }
+      },
+      "specifiers": [],
+      "source": null
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "start": 172,
+      "end": 275,
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 0
+        },
+        "end": {
+          "line": 10,
+          "column": 1
+        }
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "start": 179,
+        "end": 275,
+        "loc": {
+          "start": {
+            "line": 8,
+            "column": 7
+          },
+          "end": {
+            "line": 10,
+            "column": 1
+          }
+        },
+        "id": {
+          "type": "Identifier",
+          "start": 188,
+          "end": 200,
+          "loc": {
+            "start": {
+              "line": 8,
+              "column": 16
+            },
+            "end": {
+              "line": 8,
+              "column": 28
+            }
+          },
+          "name": "belongsToOne"
+        },
+        "generator": false,
+        "expression": false,
+        "async": false,
+        "params": [
+          {
+            "type": "Identifier",
+            "start": 201,
+            "end": 212,
+            "loc": {
+              "start": {
+                "line": 8,
+                "column": 29
+              },
+              "end": {
+                "line": 8,
+                "column": 40
+              }
+            },
+            "name": "targetModel"
+          },
+          {
+            "type": "Identifier",
+            "start": 214,
+            "end": 221,
+            "loc": {
+              "start": {
+                "line": 8,
+                "column": 42
+              },
+              "end": {
+                "line": 8,
+                "column": 49
+              }
+            },
+            "name": "options"
+          }
+        ],
+        "body": {
+          "type": "BlockStatement",
+          "start": 222,
+          "end": 275,
+          "loc": {
+            "start": {
+              "line": 8,
+              "column": 50
+            },
+            "end": {
+              "line": 10,
+              "column": 1
+            }
+          },
+          "body": [
+            {
+              "type": "ReturnStatement",
+              "start": 228,
+              "end": 273,
+              "loc": {
+                "start": {
+                  "line": 9,
+                  "column": 4
+                },
+                "end": {
+                  "line": 9,
+                  "column": 49
+                }
+              },
+              "argument": {
+                "type": "NewExpression",
+                "start": 235,
+                "end": 273,
+                "loc": {
+                  "start": {
+                    "line": 9,
+                    "column": 11
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 49
+                  }
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "start": 239,
+                  "end": 251,
+                  "loc": {
+                    "start": {
+                      "line": 9,
+                      "column": 15
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 27
+                    }
+                  },
+                  "name": "BelongsToOne"
+                },
+                "arguments": [
+                  {
+                    "type": "Identifier",
+                    "start": 252,
+                    "end": 263,
+                    "loc": {
+                      "start": {
+                        "line": 9,
+                        "column": 28
+                      },
+                      "end": {
+                        "line": 9,
+                        "column": 39
+                      }
+                    },
+                    "name": "targetModel"
+                  },
+                  {
+                    "type": "Identifier",
+                    "start": 265,
+                    "end": 272,
+                    "loc": {
+                      "start": {
+                        "line": 9,
+                        "column": 41
+                      },
+                      "end": {
+                        "line": 9,
+                        "column": 48
+                      }
+                    },
+                    "name": "options"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "leadingComments": [],
+        "trailingComments": []
+      },
+      "specifiers": [],
+      "source": null
     }
   ]
 }

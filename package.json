@@ -4,8 +4,7 @@
   "dependencies": {
     "async": "^1.4.0",
     "lodash": "3.10.0",
-    "bluebird": "^3.0.1",
-    "neo4j": "2.0.0-RC2",
+    "request-promise": "^1.0.2",
     "shortid": "^2.2.4"
   },
   "devDependencies": {
